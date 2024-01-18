@@ -1,0 +1,11 @@
+.btn {
+    border-radius: 0 !important;
+}
+
+label.req {
+    color: red;
+}
+
+.form-control {
+    height: 40px !important;
+}
