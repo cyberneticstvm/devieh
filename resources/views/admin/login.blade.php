@@ -39,7 +39,8 @@
                                 {{ html()->form('POST', route('signin'))->class('')->open() }}
                                 <div class="col-12 text-center mb-5">
                                     <h1>Sign in</h1>
-                                    <span>Devi Eye Hospitals & Opticians.</span>
+                                    <p>Devi Eye Hospitals & Opticians.</p>
+                                    <img src="{{ asset('/admin/assets/images/devi-logo-devi.png') }}" class="img-fluid" />
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-2">

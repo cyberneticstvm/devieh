@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,5 +76,23 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('doctor.edit');
         Route::put('/edit/{id}', 'update')->name('doctor.update');
         Route::get('/delete/{id}', 'destroy')->name('doctor.delete');
+    });
+
+    Route::prefix('category')->controller(CategoryController::class)->group(function () {
+        Route::get('/', 'index')->name('category');
+        Route::get('/create', 'create')->name('category.create');
+        Route::post('/create', 'store')->name('category.save');
+        Route::get('/edit/{id}', 'edit')->name('category.edit');
+        Route::put('/edit/{id}', 'update')->name('category.update');
+        Route::get('/delete/{id}', 'destroy')->name('category.delete');
+    });
+
+    Route::prefix('subcategory')->controller(SubcategoryController::class)->group(function () {
+        Route::get('/', 'index')->name('subcategory');
+        Route::get('/create', 'create')->name('subcategory.create');
+        Route::post('/create', 'store')->name('subcategory.save');
+        Route::get('/edit/{id}', 'edit')->name('subcategory.edit');
+        Route::put('/edit/{id}', 'update')->name('subcategory.update');
+        Route::get('/delete/{id}', 'destroy')->name('subcategory.delete');
     });
 });

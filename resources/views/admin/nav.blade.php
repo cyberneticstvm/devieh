@@ -33,6 +33,8 @@
                     ->linkIfCan('doctor-list', route('doctor'), 'Doctor Management')
                     ->linkIfCan('user-list', route('user'), 'User Management')
                     ->linkIfCan('role-list', route('role'), 'Roles & Permissions')
+                    ->linkIfCan('category-list', route('category'), 'Category Management')
+                    ->linkIfCan('subcategory-list', route('subcategory'), 'Subcategory Management')
                 }}
             </li>
             <li class="collapsed">
@@ -42,7 +44,18 @@
                     <li><a class="ms-link" href="#">Branch Management</a></li>
                 </ul>
             </li>
-            <li><a class="m-link" href="#"><i class="fa fa-comments"></i> <span>Camp</span></a></li>
+            <li>
+                <a class="m-link" href="#"><i class="fa fa-comments"></i> <span>Camp</span></a>
+                {{
+                    Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
+                    ->linkIfCan('branch-list', route('branch'), 'Branch Management')
+                    ->linkIfCan('doctor-list', route('doctor'), 'Doctor Management')
+                    ->linkIfCan('user-list', route('user'), 'User Management')
+                    ->linkIfCan('role-list', route('role'), 'Roles & Permissions')
+                    ->linkIfCan('category-list', route('category'), 'Category Management')
+                    ->linkIfCan('subcategory-list', route('subcategory'), 'Subcategory Management')
+                }}
+            </li>
             <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Authentication" href="#"><i class="fa fa-lock"></i> <span>Reports</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
                 <!-- Menu: Sub menu ul -->
