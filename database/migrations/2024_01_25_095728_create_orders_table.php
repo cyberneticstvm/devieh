@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('tpc')->default(0);
             $table->enum('case_type', ['Rexine', 'Box'])->nullable();
             $table->unsignedBigInteger('product_advisor')->nullable();
+            $table->string('remarks')->nullable();
             $table->string('invoice', 25)->nullable()->unique();
             $table->dateTime('invoice_date')->nullable();
             $table->decimal('total', 7, 2)->default(0);
