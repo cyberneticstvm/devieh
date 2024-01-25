@@ -23,6 +23,7 @@ return new class extends Migration
             $table->enum('eligible_for_commission', ['Yes', 'No'])->default('No');
             $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('restrict');
             $table->foreign('category_id')->references('id')->on('subcategories')->onDelete('restrict');
+            $table->unique(['category_id', 'subcategory_id', 'name']);
             $table->timestamps();
             $table->softDeletes();
         });

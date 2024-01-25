@@ -26,8 +26,8 @@ return new class extends Migration
             $table->integer('qty')->nullable();
             $table->decimal('price', 7, 2)->default(0);
             $table->decimal('total', 7, 2)->default(0);
-            $table->$table->foreign('order_id')->references('id')->on('orders')->onDelete('restrict');
-            $table->$table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('restrict');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -3,6 +3,7 @@
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
@@ -94,5 +95,14 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('subcategory.edit');
         Route::put('/edit/{id}', 'update')->name('subcategory.update');
         Route::get('/delete/{id}', 'destroy')->name('subcategory.delete');
+    });
+
+    Route::prefix('product')->controller(ProductController::class)->group(function () {
+        Route::get('/', 'index')->name('product');
+        Route::get('/create', 'create')->name('product.create');
+        Route::post('/create', 'store')->name('product.save');
+        Route::get('/edit/{id}', 'edit')->name('product.edit');
+        Route::put('/edit/{id}', 'update')->name('product.update');
+        Route::get('/delete/{id}', 'destroy')->name('product.delete');
     });
 });

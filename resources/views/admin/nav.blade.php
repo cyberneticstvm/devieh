@@ -35,6 +35,7 @@
                     ->linkIfCan('role-list', route('role'), 'Roles & Permissions')
                     ->linkIfCan('category-list', route('category'), 'Category Management')
                     ->linkIfCan('subcategory-list', route('subcategory'), 'Subcategory Management')
+                    ->linkIfCan('product-list', route('product'), 'Product Management')
                 }}
             </li>
             <li class="collapsed">
