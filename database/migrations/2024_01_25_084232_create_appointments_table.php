@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('doctor_id');
             $table->date('date')->nullable();
             $table->time('time')->nullable();
-            $table->unsignedBigInteger('medical_record_id')->nullable();
+            $table->unsignedBigInteger('mrn_id')->nullable();
             $table->unsignedBigInteger('old_mrn')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);

@@ -6,11 +6,12 @@
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Pages" href="#"><i class="fa fa-file"></i> <span>Home</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
 
                 <!-- Menu: Sub menu ul -->
-                <ul class="sub-menu collapse" id="menu-Pages">
-                    <li><a class="ms-link" href="#">Appointments</a></li>
-                    <li><a class="ms-link" href="#">New Registration</a></li>
-                    <li><a class="ms-link" href="#">Advertisements</a></li>
-                </ul>
+                {{
+                    Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
+                    ->linkIfCan('appointment-list', route('appointment'), 'Appointments')
+                    ->linkIfCan('consultation-list', route('consultation'), 'New Registration')
+                    ->linkIfCan('appointment-list', route('appointment'), 'Advertisement')
+                }}
             </li>
             <li><a class="m-link" href="#"><i class="fa fa-comments"></i> <span>Search</span></a></li>
             <li class="collapsed">

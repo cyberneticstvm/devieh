@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('medical_records', function (Blueprint $table) {
             $table->id();
             $table->string('mrn', 25)->unique();
+            $table->unsignedBigInteger('mrn_id')->unique();
             $table->string('name', 50);
             $table->integer('age');
             $table->enum('gender', ['Male', 'Female', 'Other']);
@@ -30,8 +31,7 @@ return new class extends Migration
             $table->enum('cataract_surgery_urgent', ['Yes', 'No'])->nullable();
             $table->date('post_review_date')->nullable();
             $table->string('op_reference', 25)->nullable();
-            $table->string('missed_leaf_reference', 25)->nullable()->unique();
-            $table->string('missed_leaf_reason')->nullable();
+            $table->unsignedBigInteger('status')->comment('Consultation / Order Status')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);
             $table->foreign('branch_id')->references('id')->on('branches');

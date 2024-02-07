@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SubcategoryController;
@@ -42,6 +45,12 @@ Route::middleware(['web', 'auth'])->group(function () {
 });
 
 Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function () {
+
+    Route::prefix('/ajax')->controller(AjaxController::class)->group(function () {
+        Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
+    });
+
+
     Route::prefix('/user')->controller(UserController::class)->group(function () {
         Route::get('/', 'index')->name('user');
         Route::get('/create', 'create')->name('user.create');
@@ -104,5 +113,23 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('product.edit');
         Route::put('/edit/{id}', 'update')->name('product.update');
         Route::get('/delete/{id}', 'destroy')->name('product.delete');
+    });
+
+    Route::prefix('appointment')->controller(AppointmentController::class)->group(function () {
+        Route::get('/', 'index')->name('appointment');
+        Route::get('/create', 'create')->name('appointment.create');
+        Route::post('/create', 'store')->name('appointment.save');
+        Route::get('/edit/{id}', 'edit')->name('appointment.edit');
+        Route::put('/edit/{id}', 'update')->name('appointment.update');
+        Route::get('/delete/{id}', 'destroy')->name('appointment.delete');
+    });
+
+    Route::prefix('consultation')->controller(MedicalRecordController::class)->group(function () {
+        Route::get('/', 'index')->name('consultation');
+        Route::get('/create/{type}/{review}/{type_id}', 'create')->name('consultation.create');
+        Route::post('/create', 'store')->name('consultation.save');
+        Route::get('/edit/{id}', 'edit')->name('consultation.edit');
+        Route::put('/edit/{id}', 'update')->name('consultation.update');
+        Route::get('/delete/{id}', 'destroy')->name('consultation.delete');
     });
 });
