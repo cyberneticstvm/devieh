@@ -3,6 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CampController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicalRecordController;
@@ -131,5 +132,14 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('consultation.edit');
         Route::put('/edit/{id}', 'update')->name('consultation.update');
         Route::get('/delete/{id}', 'destroy')->name('consultation.delete');
+    });
+
+    Route::prefix('camp')->controller(CampController::class)->group(function () {
+        Route::get('/', 'index')->name('camp');
+        Route::get('/create', 'create')->name('camp.create');
+        Route::post('/create', 'store')->name('camp.save');
+        Route::get('/edit/{id}', 'edit')->name('camp.edit');
+        Route::put('/edit/{id}', 'update')->name('camp.update');
+        Route::get('/delete/{id}', 'destroy')->name('camp.delete');
     });
 });
