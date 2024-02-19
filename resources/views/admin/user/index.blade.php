@@ -31,7 +31,7 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->roles?->first()->name }}</td>
+                                <td>{{ $user->roles?->first()?->name }}</td>
                                 <td>{!! $user->status() !!}
                                 <td class="text-center"><a href="{{ route('user.edit', encrypt($user->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                                 <td class="text-center"><a href="{{ route('user.delete', encrypt($user->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
