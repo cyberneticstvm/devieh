@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Appointment;
+use App\Models\CampPatient;
 use App\Models\Doctor;
 use App\Models\MedicalRecord;
 use App\Models\PaymentMode;
@@ -44,7 +45,7 @@ class MedicalRecordController extends Controller
             if ($type == 'Appointment') :
                 $patient = Appointment::findOrFail($type_id);
             elseif ($type == 'Camp') :
-            //
+                $patient = CampPatient::findOrFail($type_id);
             else :
                 $patient = MedicalRecord::findOrFail($type_id);
             endif;
@@ -91,6 +92,7 @@ class MedicalRecordController extends Controller
             'branch_id' => Session::get('branch'),
             'consultation_fee' => getDocFee($request->doctor_id, $op_reference),
             'consultation_fee_payment_mode' => $request->consultation_fee_payment_mode,
+            'consultation_type' => $request->type,
             'review' => $request->review,
             'cataract_surgery_advised' => $request->cataract_surgery_advised,
             'cataract_surgery_urgent' => $request->cataract_surgery_urgent,
@@ -104,9 +106,9 @@ class MedicalRecordController extends Controller
             if ($request->type == 'Appointment') :
                 Appointment::findOrFail($request->type_id)->update(['mrn_id' => $mrnid->mrnid]);
             endif;
-        /*if ($request->type == 'Camp') :
-                CampPatient::findOrFail($request->type_id)->update(['patient_id' => $patient->id]);
-            endif;*/
+            if ($request->type == 'Camp') :
+                CampPatient::findOrFail($request->type_id)->update(['mrn_id' => $mrnid->mrnid]);
+            endif;
         endif;
         return redirect()->route('consultation')->with('success', 'Consultation has been created successfully!');
     }

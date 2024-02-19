@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
+use App\Models\Camp;
 use Illuminate\Http\Request;
 
 class CampController extends Controller
@@ -19,7 +21,8 @@ class CampController extends Controller
 
     public function index()
     {
-        //
+        $camps = Camp::withTrashed()->latest()->get();
+        return view('admin.camp.index', compact('camps'));
     }
 
     /**
@@ -27,7 +30,8 @@ class CampController extends Controller
      */
     public function create()
     {
-        //
+        $branches = Branch::all();
+        return view('admin.camp.create', compact('branches'));
     }
 
     /**
@@ -35,7 +39,20 @@ class CampController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:camps,name',
+            'from_date' => 'required|date',
+            'to_date' => 'required|date',
+            'branch_id' => 'required',
+            'venue' => 'required',
+            'address' => 'required',
+            'cordinator' => 'required',
+        ]);
+        $input = $request->all();
+        $input['created_by'] = $request->user()->id;
+        $input['updated_by'] = $request->user()->id;
+        Camp::create($input);
+        return redirect()->route('camp')->with('success', 'Camp has been created successfully!');
     }
 
     /**
@@ -51,7 +68,9 @@ class CampController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $camp = Camp::findOrFail(decrypt($id));
+        $branches = Branch::all();
+        return view('admin.camp.edit', compact('branches', 'camp'));
     }
 
     /**
@@ -59,7 +78,19 @@ class CampController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:camps,name,' . $id,
+            'from_date' => 'required|date',
+            'to_date' => 'required|date',
+            'branch_id' => 'required',
+            'venue' => 'required',
+            'address' => 'required',
+            'cordinator' => 'required',
+        ]);
+        $input = $request->all();
+        $input['updated_by'] = $request->user()->id;
+        Camp::findOrFail($id)->update($input);
+        return redirect()->route('camp')->with('success', 'Camp has been updated successfully!');
     }
 
     /**
@@ -67,6 +98,7 @@ class CampController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Camp::findOrFail(decrypt($id))->delete();
+        return redirect()->route('camp')->with('success', 'Camp has been deleted successfully!');
     }
 }

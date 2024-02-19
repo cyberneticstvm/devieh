@@ -24,7 +24,7 @@ class AppointmentController extends Controller
 
     public function index()
     {
-        $appointments = Appointment::where('branch_id', Session::get('branch'))->withTrashed()->latest()->get();
+        $appointments = Appointment::where('branch_id', Session::get('branch'))->whereNull('mrn_id')->withTrashed()->latest()->get();
         return view('admin.appointment.index', compact('appointments'));
     }
 

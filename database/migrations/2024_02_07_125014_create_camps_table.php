@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('cordinator')->nullable();
             $table->foreign('branch_id')->references('id')->on('branches');
+            $table->unsignedBigInteger('created_by')->default(0);
+            $table->unsignedBigInteger('updated_by')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

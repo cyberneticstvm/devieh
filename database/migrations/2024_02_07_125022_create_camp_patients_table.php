@@ -22,6 +22,8 @@ return new class extends Migration
             $table->dateTime('registration_date')->nullable();
             $table->text('notes')->nullable();
             $table->unsignedBigInteger('mrn_id')->nullable();
+            $table->unsignedBigInteger('created_by')->default(0);
+            $table->unsignedBigInteger('updated_by')->default(0);
             $table->foreign('camp_id')->references('id')->on('camps')->onDelete('cascade');
             $table->timestamps();
         });

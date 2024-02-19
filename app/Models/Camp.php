@@ -23,4 +23,9 @@ class Camp extends Model
     {
         return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
+
+    public function camppatients()
+    {
+        return;
+    }
 }

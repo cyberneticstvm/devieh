@@ -4,6 +4,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CampController;
+use App\Http\Controllers\CampPatientController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicalRecordController;
@@ -141,5 +142,14 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('camp.edit');
         Route::put('/edit/{id}', 'update')->name('camp.update');
         Route::get('/delete/{id}', 'destroy')->name('camp.delete');
+    });
+
+    Route::prefix('camp/patient')->controller(CampPatientController::class)->group(function () {
+        Route::get('/{id}', 'index')->name('camp.patient');
+        Route::get('/create/{id}', 'create')->name('camp.patient.create');
+        Route::post('/create', 'store')->name('camp.patient.save');
+        Route::get('/edit/{id}', 'edit')->name('camp.patient.edit');
+        Route::put('/edit/{id}', 'update')->name('camp.patient.update');
+        Route::get('/delete/{id}', 'destroy')->name('camp.patient.delete');
     });
 });

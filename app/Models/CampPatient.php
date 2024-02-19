@@ -10,4 +10,11 @@ class CampPatient extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $casts = ['registration_date' => 'date'];
+
+    public function camp()
+    {
+        return $this->belongsTo(Camp::class, 'camp_id', 'id');
+    }
 }
