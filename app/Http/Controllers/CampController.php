@@ -9,6 +9,14 @@ class CampController extends Controller
     /**
      * Display a listing of the resource.
      */
+    function __construct()
+    {
+        $this->middleware('permission:camp-list|camp-create|camp-edit|camp-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:camp-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         //
