@@ -32,7 +32,7 @@
                     Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
                     ->linkIfCan('branch-list', route('branch'), 'Branch Management')
                     ->linkIfCan('doctor-list', route('doctor'), 'Doctor Management')
-                    ->link('user-list', route('user'), 'User Management')
+                    ->linkIfCan('user-list', route('user'), 'User Management')
                     ->linkIfCan('role-list', route('role'), 'Roles & Permissions')
                     ->linkIfCan('category-list', route('category'), 'Category Management')
                     ->linkIfCan('subcategory-list', route('subcategory'), 'Subcategory Management')
