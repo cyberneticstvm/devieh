@@ -18,6 +18,16 @@ function settings()
     return Setting::all();
 }
 
+function thickness()
+{
+    return array('Not Applicable' => 'Not Applicable', 'Maximum Thin' => 'Maximum Thin', 'Normal Thick' => 'Normal Thick', 'Thin' => 'Thin');
+}
+
+function casetypes()
+{
+    return array('Rexine' => 'Rexine', 'Box' => 'Box');
+}
+
 function getDocFee($doctor, $opreference)
 {
     $days = Setting::where('id', 3)->first()->value;
@@ -57,4 +67,9 @@ function getAppointmentTimeList($date, $doctor, $branch)
         endwhile;
     endif;
     return $arr;
+}
+
+function generateAuthCode()
+{
+    return date('y') . 'IN' . time();
 }

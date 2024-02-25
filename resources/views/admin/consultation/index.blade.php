@@ -33,7 +33,7 @@
                             @forelse($consultations as $key => $consultation)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $consultation->mrn }}</td>
+                                <td><a href="{{ route('store.order.create', encrypt($consultation->id)) }}">{{ $consultation->mrn }}</a></td>
                                 <td>{{ $consultation->name }}</td>
                                 <td>{{ $consultation->place }}</td>
                                 <td>{{ $consultation->mobile }}</td>

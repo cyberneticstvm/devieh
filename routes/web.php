@@ -8,6 +8,8 @@ use App\Http\Controllers\CampPatientController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicalRecordController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SubcategoryController;
@@ -50,6 +52,7 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
 
     Route::prefix('/ajax')->controller(AjaxController::class)->group(function () {
         Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
+        Route::get('/fetch/product/{id}', 'fetchProduct')->name('ajax.product.fetch');
     });
 
 
@@ -151,5 +154,23 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('camp.patient.edit');
         Route::put('/edit/{id}', 'update')->name('camp.patient.update');
         Route::get('/delete/{id}', 'destroy')->name('camp.patient.delete');
+    });
+
+    Route::prefix('order/store')->controller(OrderController::class)->group(function () {
+        Route::get('/', 'index')->name('store.order');
+        Route::get('/create/{id}', 'create')->name('store.order.create');
+        Route::post('/create/{id}', 'store')->name('store.order.save');
+        Route::get('/edit/{id}', 'edit')->name('store.order.edit');
+        Route::put('/update/{id}', 'update')->name('store.order.update');
+        Route::get('/delete/{id}', 'destroy')->name('store.order.delete');
+    });
+
+    Route::prefix('order/pharmacy')->controller(PharmacyController::class)->group(function () {
+        Route::get('/', 'index')->name('pharmacy.order');
+        Route::get('/create', 'create')->name('pharmacy.order.create');
+        Route::post('/create', 'store')->name('pharmacy.order.save');
+        Route::get('/edit/{id}', 'edit')->name('pharmacy.order.edit');
+        Route::put('/update/{id}', 'update')->name('pharmacy.order.update');
+        Route::get('/delete/{id}', 'destroy')->name('pharmacy.order.delete');
     });
 });

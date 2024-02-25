@@ -9,3 +9,8 @@ label.req {
 .form-control {
     height: 40px !important;
 }
+
+.ordTbl input {
+    width: 75px !important;
+    border: none !important;
+}
