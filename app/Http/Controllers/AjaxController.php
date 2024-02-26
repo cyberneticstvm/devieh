@@ -19,4 +19,10 @@ class AjaxController extends Controller
         $product = Product::findOrFail($id);
         return response()->json($product);
     }
+
+    public function fetchProductsByCategory($category)
+    {
+        $products = Product::where('category_id', $category)->get();
+        return response()->json($products);
+    }
 }

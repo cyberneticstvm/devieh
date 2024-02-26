@@ -53,6 +53,7 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
     Route::prefix('/ajax')->controller(AjaxController::class)->group(function () {
         Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
         Route::get('/fetch/product/{id}', 'fetchProduct')->name('ajax.product.fetch');
+        Route::get('/fetch/category/product/{id}', 'fetchProductsByCategory')->name('ajax.product.by.category.fetch');
     });
 
 
@@ -167,8 +168,8 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
 
     Route::prefix('order/pharmacy')->controller(PharmacyController::class)->group(function () {
         Route::get('/', 'index')->name('pharmacy.order');
-        Route::get('/create', 'create')->name('pharmacy.order.create');
-        Route::post('/create', 'store')->name('pharmacy.order.save');
+        Route::get('/create/{id}', 'create')->name('pharmacy.order.create');
+        Route::post('/create/{id}', 'store')->name('pharmacy.order.save');
         Route::get('/edit/{id}', 'edit')->name('pharmacy.order.edit');
         Route::put('/update/{id}', 'update')->name('pharmacy.order.update');
         Route::get('/delete/{id}', 'destroy')->name('pharmacy.order.delete');

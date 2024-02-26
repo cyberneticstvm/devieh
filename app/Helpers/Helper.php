@@ -2,6 +2,7 @@
 
 use App\Models\Appointment;
 use App\Models\Branch;
+use App\Models\CampPatient;
 use App\Models\Doctor;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Session;
@@ -26,6 +27,12 @@ function thickness()
 function casetypes()
 {
     return array('Rexine' => 'Rexine', 'Box' => 'Box');
+}
+
+function generatePharmacyInvoice()
+{
+    $bcode = Branch::findOrFail(Session::get('branch'))->code;
+    return DB::table('pharmacies')->selectRaw("CONCAT_WS('/', 'INV', 'PH', '$bcode', LPAD(IFNULL(max(id)+1, 1), 7, '0')) AS ino")->first();
 }
 
 function getDocFee($doctor, $opreference)
@@ -72,4 +79,13 @@ function getAppointmentTimeList($date, $doctor, $branch)
 function generateAuthCode()
 {
     return date('y') . 'IN' . time();
+}
+
+function getDiscount($medical_record_id, $discount, $total)
+{
+    $discount_percentage_for_camp_patient = 50;
+    $camp_patient = CampPatient::where('mrn_id', $medical_record_id)->first();
+    if ($camp_patient)
+        return ($total * $discount_percentage_for_camp_patient) / 100;
+    return $discount;
 }

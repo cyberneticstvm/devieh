@@ -67,6 +67,11 @@ $(document).ready(function () {
         calculateTotal()
     });
 
+    $(document).on("click", ".dltRow", function () {
+        $(this).parent().parent().remove();
+        calculateTotal();
+    });
+
 });
 
 function calculateTotal() {
@@ -79,7 +84,27 @@ function calculateTotal() {
     });
     $(".total").val(parseFloat(total).toFixed(2));
     var discount = parseFloat($(".discount").val());
-    var advance = parseFloat($(".advance").val());
+    var advance = (parseFloat($(".advance").val())) ? parseFloat($(".advance").val()) : 0;
     var balance = total - (advance + discount);
     $(".balance").val(parseFloat(balance).toFixed(2));
+}
+
+function addPharmacyOrderRow() {
+    $.ajax({
+        type: 'GET',
+        url: '/admin/ajax/fetch/category/product/3',
+        dataType: 'json',
+        success: function (res) {
+            $(".powerbox").append(`<tr><td><select class="form-control selPdct pdct" name="product_id[]" required><option></option></select></td><td><input type="text" name="qty[]" class="text-end qty" placeholder="0"></td><td><input type="text" name="dosage[]" class="form-control" placeholder="Dosage"></td><td><input type="text" name="duration[]" class="form-control" placeholder="Duration"></td><td><input type="text" name="price[]" class="text-end price" placeholder="0.00" readonly></td><td><input type="text" name="tot[]" class="text-end tot" placeholder="0.00" readonly></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
+            var xdata = $.map(res, function (obj) {
+                obj.text = obj.name || obj.id;
+                return obj;
+            });
+            //$('.selPdct').last().select2().empty();                      
+            $('.selPdct').last().select2({
+                placeholder: 'Select',
+                data: xdata
+            });
+        }
+    });
 }

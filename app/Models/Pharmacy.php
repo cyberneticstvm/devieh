@@ -16,4 +16,14 @@ class Pharmacy extends Model
     {
         return ($this->deleted_at) ? "<span class='badge bg-danger'>Deleted</span>" : "<span class='badge bg-success'>Active</span>";
     }
+
+    public function mrecord()
+    {
+        return $this->belongsTo(MedicalRecord::class, 'medical_record_id', 'id');
+    }
+
+    public function details()
+    {
+        return $this->hasMany(PharmacyDetail::class, 'order_id', 'id');
+    }
 }

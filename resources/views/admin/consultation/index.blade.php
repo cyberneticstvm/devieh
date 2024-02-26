@@ -20,6 +20,7 @@
                                 <th>Place</th>
                                 <th>Phone Number</th>
                                 <th>Doctor</th>
+                                <th>Pharma</th>
                                 <th>OPT</th>
                                 <th>Service Fee</th>
                                 <th>Receipt</th>
@@ -38,10 +39,11 @@
                                 <td>{{ $consultation->place }}</td>
                                 <td>{{ $consultation->mobile }}</td>
                                 <td>{{ $consultation->doctor->name }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-center"><a href="{{ route('pharmacy.order.create', encrypt($consultation->id)) }}"><i class="fa fa-medkit text-danger"></i></a></td>
+                                <td class="text-center"><a href=""><i class="fa fa-file-pdf-o text-danger"></i></a></td>
+                                <td class="text-center"><a href=""><i class="fa fa-file-pdf-o text-danger"></i></a></td>
+                                <td class="text-center"><a href=""><i class="fa fa-file-pdf-o text-danger"></i></a></td>
+                                <td>{{ $consultation->orderstatus->name }}</td>
                                 <td>{!! $consultation->status() !!}
                                 <td class="text-center"><a href="{{ route('consultation.edit', encrypt($consultation->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                                 <td class="text-center"><a href="{{ route('consultation.delete', encrypt($consultation->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>

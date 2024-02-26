@@ -28,4 +28,9 @@ class MedicalRecord extends Model
     {
         return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
+
+    public function orderstatus()
+    {
+        return $this->hasOne(Status::class, 'id', 'status');
+    }
 }

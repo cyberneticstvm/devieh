@@ -29,7 +29,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order::withTrashed()->whereDate('created_at', Carbon::today())->latest()->get();
+        $orders = Order::withTrashed()->where('branch_id', Session::get('branch'))->whereDate('created_at', Carbon::today())->latest()->get();
         return view('admin.order.store.index', compact('orders'));
     }
 
@@ -45,7 +45,11 @@ class OrderController extends Controller
             $pmodes = PaymentMode::all();
             $products = Product::all();
             $advisors = User::all();
-            return view('admin.order.store.create', compact('mrecord', 'order', 'pmodes', 'products', 'advisors'));
+            if ($order) :
+                return view('admin.order.store.edit', compact('mrecord', 'order', 'pmodes', 'products', 'advisors'));
+            else :
+                return view('admin.order.store.create', compact('mrecord', 'pmodes', 'products', 'advisors'));
+            endif;
         else :
         //
         endif;
@@ -68,6 +72,7 @@ class OrderController extends Controller
                     'cataract_surgery_urgent' => $request->cataract_surgery_urgent,
                     'consultation_fee_payment_mode' => $request->consultation_fee_payment_mode,
                     'post_review_date' => $request->post_review_date,
+                    'status' => 2,
                 ]);
                 $order = Order::create([
                     'medical_record_id' => $mrecord->id,
