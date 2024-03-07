@@ -25,4 +25,10 @@ class AjaxController extends Controller
         $products = Product::where('category_id', $category)->get();
         return response()->json($products);
     }
+
+    public function fetchProductsByCategoryNotIn($category)
+    {
+        $products = Product::whereNotIn('category_id', [$category])->get();
+        return response()->json($products);
+    }
 }

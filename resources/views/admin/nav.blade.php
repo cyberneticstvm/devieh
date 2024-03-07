@@ -50,9 +50,13 @@
             <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Authentication" href="#"><i class="fa fa-lock"></i> <span>Stock</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
                 <!-- Menu: Sub menu ul -->
-                <ul class="sub-menu collapse" id="menu-Authentication">
-                    <li><a class="ms-link" href="#">Branch Management</a></li>
-                </ul>
+                {{
+                    Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
+                    ->linkIfCan('store-purchase-list', route('store.purchase'), 'Purchase - Store')
+                    ->linkIfCan('pharmacy-purchase-list', route('pharmacy.purchase'), 'Purchase - Pharmacy')
+                    ->linkIfCan('store-transfer-list', route('store.transfer'), 'Transfer - Store')
+                    ->linkIfCan('pharmacy-transfer-list', route('pharmacy.transfer'), 'Transfer - Pharmacy')
+                }}
             </li>
             <li>
                 <a class="m-link" href="#"><i class="fa fa-comments"></i> <span>Camp</span></a>
@@ -65,33 +69,28 @@
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Authentication" href="#"><i class="fa fa-lock"></i> <span>Reports</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
                 <!-- Menu: Sub menu ul -->
                 <ul class="sub-menu collapse" id="menu-Authentication">
-                    <li><a class="ms-link" href="#">Sign in</a></li>
-                    <li><a class="ms-link" href="#">Sign up</a></li>
-                    <li><a class="ms-link" href="#">Password reset</a></li>
-                    <li><a class="ms-link" href="#">2-Step Authentication</a></li>
-                    <li><a class="ms-link" href="#">404</a></li>
+                    <li><a class="ms-link" href="#">Daybook</a></li>
+                    <li><a class="ms-link" href="#">Lab</a></li>
+                    <li><a class="ms-link" href="#">Sales (Store)</a></li>
+                    <li><a class="ms-link" href="#">Sales (Pharmacy)</a></li>
+                    <li><a class="ms-link" href="#">Expense</a></li>
                 </ul>
             </li>
             <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Authentication" href="#"><i class="fa fa-lock"></i> <span>Extras</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
                 <!-- Menu: Sub menu ul -->
-                <ul class="sub-menu collapse" id="menu-Authentication">
-                    <li><a class="ms-link" href="#">Sign in</a></li>
-                    <li><a class="ms-link" href="#">Sign up</a></li>
-                    <li><a class="ms-link" href="#">Password reset</a></li>
-                    <li><a class="ms-link" href="#">2-Step Authentication</a></li>
-                    <li><a class="ms-link" href="#">404</a></li>
-                </ul>
+                {{
+                    Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
+                    ->linkIfCan('branch-list', route('branch'), 'Head')
+                    ->linkIfCan('doctor-list', route('doctor'), 'Expense')
+                    ->linkIfCan('supplier-list', route('supplier'), 'Supplier')
+                }}
             </li>
             <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Authentication" href="#"><i class="fa fa-lock"></i> <span>Settings</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
                 <!-- Menu: Sub menu ul -->
                 <ul class="sub-menu collapse" id="menu-Authentication">
-                    <li><a class="ms-link" href="#">Sign in</a></li>
-                    <li><a class="ms-link" href="#">Sign up</a></li>
-                    <li><a class="ms-link" href="#">Password reset</a></li>
-                    <li><a class="ms-link" href="#">2-Step Authentication</a></li>
-                    <li><a class="ms-link" href="#">404</a></li>
+                    <li><a class="ms-link" href="#">Appointment</a></li>
                 </ul>
             </li>
         </ul>

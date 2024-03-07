@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Purchase extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    protected $guarded = [];
+
+    protected $casts = ['order_date' => 'date', 'delivery_date' => 'date'];
+
+    public function status()
+    {
+        return ($this->deleted_at) ? "<span class='badge bg-danger'>Deleted</span>" : "<span class='badge bg-success'>Active</span>";
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
+    }
+
+    public function details()
+    {
+        return $this->hasMany(PurchaseDetail::class, 'purchase_id', 'id');
+    }
+}

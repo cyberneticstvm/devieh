@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id')->nullable();
+            $table->string('batch_number', 50)->nullable();
             $table->integer('qty')->nullable();
             $table->string('dosage')->nullable();
             $table->string('duration')->nullable();

@@ -10,9 +10,14 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PharmacyController;
+use App\Http\Controllers\PharmacyPurchaseController;
+use App\Http\Controllers\PharmacyTransferController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StorePurchaseController;
+use App\Http\Controllers\StoreTransferController;
 use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +59,7 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
         Route::get('/fetch/product/{id}', 'fetchProduct')->name('ajax.product.fetch');
         Route::get('/fetch/category/product/{id}', 'fetchProductsByCategory')->name('ajax.product.by.category.fetch');
+        Route::get('/fetch/category/not/product/{id}', 'fetchProductsByCategoryNotIn')->name('ajax.product.by.category.not.fetch');
     });
 
 
@@ -173,5 +179,50 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('pharmacy.order.edit');
         Route::put('/update/{id}', 'update')->name('pharmacy.order.update');
         Route::get('/delete/{id}', 'destroy')->name('pharmacy.order.delete');
+    });
+
+    Route::prefix('supplier')->controller(SupplierController::class)->group(function () {
+        Route::get('/', 'index')->name('supplier');
+        Route::get('/create', 'create')->name('supplier.create');
+        Route::post('/create', 'store')->name('supplier.save');
+        Route::get('/edit/{id}', 'edit')->name('supplier.edit');
+        Route::put('/edit/{id}', 'update')->name('supplier.update');
+        Route::get('/delete/{id}', 'destroy')->name('supplier.delete');
+    });
+
+    Route::prefix('store/purchase')->controller(StorePurchaseController::class)->group(function () {
+        Route::get('/', 'index')->name('store.purchase');
+        Route::get('/create', 'create')->name('store.purchase.create');
+        Route::post('/create', 'store')->name('store.purchase.save');
+        Route::get('/edit/{id}', 'edit')->name('store.purchase.edit');
+        Route::put('/edit/{id}', 'update')->name('store.purchase.update');
+        Route::get('/delete/{id}', 'destroy')->name('store.purchase.delete');
+    });
+
+    Route::prefix('pharmacy/purchase')->controller(PharmacyPurchaseController::class)->group(function () {
+        Route::get('/', 'index')->name('pharmacy.purchase');
+        Route::get('/create', 'create')->name('pharmacy.purchase.create');
+        Route::post('/create', 'store')->name('pharmacy.purchase.save');
+        Route::get('/edit/{id}', 'edit')->name('pharmacy.purchase.edit');
+        Route::put('/edit/{id}', 'update')->name('pharmacy.purchase.update');
+        Route::get('/delete/{id}', 'destroy')->name('pharmacy.purchase.delete');
+    });
+
+    Route::prefix('store/transfer')->controller(StoreTransferController::class)->group(function () {
+        Route::get('/', 'index')->name('store.transfer');
+        Route::get('/create', 'create')->name('store.transfer.create');
+        Route::post('/create', 'store')->name('store.transfer.save');
+        Route::get('/edit/{id}', 'edit')->name('store.transfer.edit');
+        Route::put('/edit/{id}', 'update')->name('store.transfer.update');
+        Route::get('/delete/{id}', 'destroy')->name('store.transfer.delete');
+    });
+
+    Route::prefix('pharmacy/transfer')->controller(PharmacyTransferController::class)->group(function () {
+        Route::get('/', 'index')->name('pharmacy.transfer');
+        Route::get('/create', 'create')->name('pharmacy.transfer.create');
+        Route::post('/create', 'store')->name('pharmacy.transfer.save');
+        Route::get('/edit/{id}', 'edit')->name('pharmacy.transfer.edit');
+        Route::put('/edit/{id}', 'update')->name('pharmacy.transfer.update');
+        Route::get('/delete/{id}', 'destroy')->name('pharmacy.transfer.delete');
     });
 });

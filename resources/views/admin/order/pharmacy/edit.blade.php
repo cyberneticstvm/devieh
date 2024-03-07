@@ -33,6 +33,7 @@
                                         <tr>
                                             <th>PRODUCT</th>
                                             <th>QTY</th>
+                                            <th>BATCH</th>
                                             <th>DOSAGE</th>
                                             <th>DURATION</th>
                                             <th>PRICE</th>
@@ -48,6 +49,9 @@
                                             </td>
                                             <td>
                                                 {{ html()->text('qty[]', $item->qty)->class('text-end qty')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('0') }}
+                                            </td>
+                                            <td>
+                                                {{ html()->text('batch_number[]', $item->batch_number)->class('form-control w-100')->attribute('autocomplete', 'false')->maxlength('40')->placeholder('Batch') }}
                                             </td>
                                             <td>
                                                 {{ html()->text('dosage[]', $item->dosage)->class('form-control w-100')->attribute('autocomplete', 'false')->placeholder('Dosage') }}
@@ -70,7 +74,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="5" class="text-end">Total</td>
+                                            <td colspan="6" class="text-end">Total</td>
                                             <td>
                                                 {{ html()->text('total', $order->total)->class('text-end total')->attribute('autocomplete', 'false')->placeholder('0.0')->attribute('readonly', 'true') }}
                                                 @error('total')
@@ -80,14 +84,14 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="5" class="text-end">Discount</td>
+                                            <td colspan="6" class="text-end">Discount</td>
                                             <td>
                                                 {{ html()->text('discount', $order->discount ?? '0.00')->class('text-end discount')->attribute('autocomplete', 'false')->placeholder('0.00') }}
                                             </td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="5" class="text-end">Balance</td>
+                                            <td colspan="6" class="text-end">Balance</td>
                                             <td>
                                                 {{ html()->text('balance', $order->total_after_discount)->class('text-end balance')->attribute('autocomplete', 'false')->placeholder('0.0')->attribute('readonly', 'true') }}
                                             </td>
