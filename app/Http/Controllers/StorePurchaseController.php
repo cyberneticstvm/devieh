@@ -139,7 +139,7 @@ class StorePurchaseController extends Controller
         ]);
         try {
             DB::transaction(function () use ($request, $id) {
-                $tr = Transfer::where('transfer_note', 'LIKE', '%' . $id)->firstOrFail();
+                $tr = Transfer::where('transfer_note', 'LIKE', '% id of ' . $id)->firstOrFail();
                 Purchase::findOrFail($id)->update([
                     'supplier_id' => $request->supplier_id,
                     'order_date' => $request->order_date,
@@ -174,8 +174,8 @@ class StorePurchaseController extends Controller
                         'updated_at' => Carbon::now(),
                     ];
                 endforeach;
-                PurchaseDetail::findOrFail($id)->delete();
-                TransferDetail::findOrFail($tr->id)->delete();
+                PurchaseDetail::where('purchase_id', $id)->delete();
+                TransferDetail::where('transfer_id', $tr->id)->delete();
                 PurchaseDetail::insert($data);
                 TransferDetail::insert($data1);
             });
@@ -192,7 +192,7 @@ class StorePurchaseController extends Controller
     {
         try {
             DB::transaction(function () use ($id) {
-                $tr = Transfer::where('transfer_note', 'LIKE', '%' . decrypt($id))->firstOrFail();
+                $tr = Transfer::where('transfer_note', 'LIKE', '% id of ' . decrypt($id))->firstOrFail();
                 Purchase::findOrFail(decrypt($id))->delete();
                 Transfer::findOrFail($tr->id)->delete();
             });
