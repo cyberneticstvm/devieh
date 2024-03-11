@@ -35,8 +35,8 @@
                                 <td>{{ $transfer->created_at->format('d, M Y') }}</td>
                                 <td>{{ $transfer->transfer_note }}</td>
                                 <td>{!! $transfer->status() !!}
-                                <td class="text-center"><a href="{{ route('store.transfer.edit', encrypt($transfer->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
-                                <td class="text-center"><a href="{{ route('store.transfer.delete', encrypt($transfer->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
+                                <td class="text-center"><a href="{{ ($transfer->purchase_id) ? '#' : route('store.transfer.edit', encrypt($transfer->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
+                                <td class="text-center"><a href="{{ ($transfer->purchase_id) ? '#' :  route('store.transfer.delete', encrypt($transfer->id)) }}" class="{{ ($transfer->purchase_id) ? '' : 'dlt' }}"><i class="fa fa-trash text-danger"></i></a></td>
                             </tr>
                             @empty
                             @endforelse
