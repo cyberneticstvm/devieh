@@ -28,7 +28,7 @@ class StorePurchaseController extends Controller
 
     public function index()
     {
-        $purchases = Purchase::withTrashed()->where('type', 'store')->latest()->get();
+        $purchases = Purchase::withTrashed()->where('type', 'store')->whereDate('created_at', Carbon::today())->latest()->get();
         return view('admin.purchase.store.index', compact('purchases'));
     }
 
@@ -70,6 +70,7 @@ class StorePurchaseController extends Controller
                     'to_branch' => 0,
                     'transfer_note' => 'Purchase recorded with id of ' . $purchase->id,
                     'type' => 'store',
+                    'purchase_id' => $purchase->id,
                     'created_by' => $request->user()->id,
                     'updated_by' => $request->user()->id,
                 ]);
@@ -139,7 +140,8 @@ class StorePurchaseController extends Controller
         ]);
         try {
             DB::transaction(function () use ($request, $id) {
-                $tr = Transfer::where('transfer_note', 'LIKE', '% id of ' . $id)->firstOrFail();
+                //$tr = Transfer::where('transfer_note', 'LIKE', '% id of ' . $id)->firstOrFail();
+                $tr = Transfer::where('purchase_id', $id)->firstOrFail();
                 Purchase::findOrFail($id)->update([
                     'supplier_id' => $request->supplier_id,
                     'order_date' => $request->order_date,

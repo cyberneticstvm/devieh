@@ -11,7 +11,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        {{ html()->form('PUT', route('store.purchase.update', $purchase->id))->class('')->open() }}
+                        {{ html()->form('PUT', route('pharmacy.purchase.update', $purchase->id))->class('')->open() }}
                         <div class="row g-3">
                             <div class="col-lg-4 col-md-6">
                                 <label class="form-label req" for="name">Supplier Name</label>
@@ -53,6 +53,8 @@
                                         <tr>
                                             <th>PRODUCT</th>
                                             <th>QTY</th>
+                                            <th>BATCH NUMBER</th>
+                                            <th width="15%">EXPIRY DATE</th>
                                             <th>PURCHASE PRICE</th>
                                             <th>SELLING PRICE</th>
                                             <th class="text-center"><a href="javascript:void(0)" onclick="addStorePurchaseRow()"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
@@ -66,6 +68,12 @@
                                             </td>
                                             <td>
                                                 {{ html()->number('qty[]', $item->qty, $min=1, '', $step='1')->class('text-end form-control')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('0') }}
+                                            </td>
+                                            <td>
+                                                {{ html()->text('batch_number[]', $item->batch_number)->class('form-control')->attribute('autocomplete', 'false')->maxlength('40')->placeholder('Batch Number') }}
+                                            </td>
+                                            <td>
+                                                {{ html()->date('expiry_date[]', $item->expiry_date)->class('form-control w-100')->attribute('autocomplete', 'false') }}
                                             </td>
                                             <td>
                                                 {{ html()->number('purchase_price[]', $item->purchase_price, $min=0, '', $step='any')->class('text-end form-control')->attribute('autocomplete', 'false')->placeholder('0.00') }}

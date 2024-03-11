@@ -127,3 +127,60 @@ function addStorePurchaseRow() {
         }
     });
 }
+
+function addPharmacyPurchaseRow() {
+    $.ajax({
+        type: 'GET',
+        url: '/admin/ajax/fetch/category/product/3',
+        dataType: 'json',
+        success: function (res) {
+            $(".pharmacyPurchaseTbl").append(`<tr><td><select class="form-control purPdct" name="product_id[]" required><option></option></select></td><td><input type="number" name="qty[]" class="text-end form-control" min="1" step="1" placeholder="0"></td><td><input type="text" name="batch_number[]" class="form-control" placeholder="Batch Number" required></td><td><input type="date" name="expiry_date[]" class="form-control" placeholder="Batch Number" required></td><td><input type="number" name="purchase_price[]" min="0" step="any" class="text-end form-control" placeholder="0.00"></td><td><input type="number" name="selling_price[]" min="0" step="any" class="text-end form-control" placeholder="0.00"></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
+            var xdata = $.map(res, function (obj) {
+                obj.text = obj.name || obj.id;
+                return obj;
+            });
+            $('.purPdct').last().select2({
+                placeholder: 'Select',
+                data: xdata
+            });
+        }
+    });
+}
+
+function addStoreTransferRow() {
+    $.ajax({
+        type: 'GET',
+        url: '/admin/ajax/fetch/category/not/product/3',
+        dataType: 'json',
+        success: function (res) {
+            $(".storeTransferTbl").append(`<tr><td><select class="form-control purPdct" name="product_id[]" required><option></option></select></td><td><input type="number" name="qty[]" class="text-end form-control" min="1" step="1" placeholder="0" required></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
+            var xdata = $.map(res, function (obj) {
+                obj.text = obj.name || obj.id;
+                return obj;
+            });
+            $('.purPdct').last().select2({
+                placeholder: 'Select',
+                data: xdata
+            });
+        }
+    });
+}
+
+function addPharmacyTransferRow() {
+    $.ajax({
+        type: 'GET',
+        url: '/admin/ajax/fetch/category/product/3',
+        dataType: 'json',
+        success: function (res) {
+            $(".pharmacyTransferTbl").append(`<tr><td><select class="form-control purPdct" name="product_id[]" required><option></option></select></td><td><input type="text" name="batch_number[]" class="form-control" placeholder="Batch Number" required></td><td><input type="number" name="qty[]" class="text-end form-control" min="1" step="1" placeholder="0" required></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
+            var xdata = $.map(res, function (obj) {
+                obj.text = obj.name || obj.id;
+                return obj;
+            });
+            $('.purPdct').last().select2({
+                placeholder: 'Select',
+                data: xdata
+            });
+        }
+    });
+}

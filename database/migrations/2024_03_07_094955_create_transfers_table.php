@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('to_branch')->default(0);
             $table->text('transfer_note')->nullable();
             $table->enum('type', ['store', 'pharmacy', 'other'])->nullable();
+            $table->unsignedBigInteger('purchase_id')->comment("Whether this transfer occurred via purchase or not")->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();

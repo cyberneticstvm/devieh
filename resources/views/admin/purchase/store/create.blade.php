@@ -48,7 +48,7 @@
                         </div>
                         <div class="row mt-5">
                             <div class="col-12 table-responsive">
-                                <table class="table display table-sm ordTbl">
+                                <table class="table display table-sm">
                                     <thead>
                                         <tr>
                                             <th>PRODUCT</th>
