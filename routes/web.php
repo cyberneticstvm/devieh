@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BranchController;
@@ -224,5 +225,18 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('pharmacy.transfer.edit');
         Route::put('/edit/{id}', 'update')->name('pharmacy.transfer.update');
         Route::get('/delete/{id}', 'destroy')->name('pharmacy.transfer.delete');
+    });
+
+    Route::prefix('ad')->controller(AdController::class)->group(function () {
+        Route::get('/', 'index')->name('ads');
+        Route::get('/create', 'create')->name('ad.create');
+        Route::post('/create', 'store')->name('ad.save');
+        Route::get('/edit/{id}', 'edit')->name('ad.edit');
+        Route::put('/edit/{id}', 'update')->name('ad.update');
+        Route::get('/delete/{id}', 'destroy')->name('ad.delete');
+
+        Route::get('/update/settlement/{id}', 'settlement')->name('ad.settlement');
+        Route::put('/update/settlement/{id}', 'settlementUpdate')->name('ad.settlement.update');
+        Route::get('/settlement/delete/{id}', 'destroySettlement')->name('ad.settlement.delete');
     });
 });

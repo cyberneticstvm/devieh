@@ -10,7 +10,7 @@
                     Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
                     ->linkIfCan('appointment-list', route('appointment'), 'Appointments')
                     ->linkIfCan('consultation-list', route('consultation'), 'New Registration')
-                    ->linkIfCan('appointment-list', route('appointment'), 'Advertisement')
+                    ->linkIfCan('ad-list', route('ads'), 'Advertisement')
                 }}
             </li>
             <li><a class="m-link" href="#"><i class="fa fa-comments"></i> <span>Search</span></a></li>
