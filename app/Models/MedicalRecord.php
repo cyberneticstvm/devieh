@@ -33,4 +33,14 @@ class MedicalRecord extends Model
     {
         return $this->hasOne(Status::class, 'id', 'status');
     }
+
+    public function order()
+    {
+        return $this->hasOne(Order::class, 'medical_record_id', 'id');
+    }
+
+    public function pharmacy()
+    {
+        return $this->hasOne(Pharmacy::class, 'medical_record_id', 'id');
+    }
 }

@@ -11,23 +11,12 @@
                     ->linkIfCan('appointment-list', route('appointment'), 'Appointments')
                     ->linkIfCan('consultation-list', route('consultation'), 'New Registration')
                     ->linkIfCan('ad-list', route('ads'), 'Advertisement')
+                    ->linkIfCan('search', route('search'), 'Search')
                 }}
             </li>
-            <li><a class="m-link" href="#"><i class="fa fa-comments"></i> <span>Search</span></a></li>
+            <!--<li><a class="m-link" href="#"><i class="fa fa-comments"></i> <span>Search</span></a></li>-->
             <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Authentication" href="#"><i class="fa fa-lock"></i> <span>Operations</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
-                <!-- Menu: Sub menu ul -->
-                <!--<ul class="sub-menu collapse" id="menu-Authentication">
-                    <li><a class="ms-link" href="{{ route('branch') }}">Branch Management</a></li>
-                    <li><a class="ms-link" href="{{ route('doctor') }}">Doctor Management</a></li>
-                    <li><a class="ms-link" href="{{ route('user') }}">User Management</a></li>
-                    <li><a class="ms-link" href="{{ route('role') }}">Roles & Permissions</a></li>
-                    <li><a class="ms-link" href="#">Category Management</a></li>
-                    <li><a class="ms-link" href="#">Subcategory Management</a></li>
-                    <li><a class="ms-link" href="#">Product Management</a></li>
-                    <li><a class="ms-link" href="#">Event Status</a></li>
-                    <li><a class="ms-link" href="#">Lab Status</a></li>
-                </ul>-->
                 {{
                     Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
                     ->linkIfCan('branch-list', route('branch'), 'Branch Management')

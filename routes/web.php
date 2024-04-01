@@ -8,6 +8,7 @@ use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampPatientController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\HelperController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PharmacyController;
@@ -63,6 +64,10 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/fetch/category/not/product/{id}', 'fetchProductsByCategoryNotIn')->name('ajax.product.by.category.not.fetch');
     });
 
+    Route::prefix('/helper')->controller(HelperController::class)->group(function () {
+        Route::get('/search', 'search')->name('search');
+        Route::post('/search', 'searchFetch')->name('search.fetch');
+    });
 
     Route::prefix('/user')->controller(UserController::class)->group(function () {
         Route::get('/', 'index')->name('user');

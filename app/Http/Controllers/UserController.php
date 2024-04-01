@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Branch;
 use App\Models\User;
 use App\Models\UserBranch;
@@ -53,7 +54,11 @@ class UserController extends Controller
     public function dashboard()
     {
         $branches = Branch::whereIn('id', UserBranch::where('user_id', Auth::id())->pluck('branch_id'))->pluck('name', 'id');
-        return view('admin.dashboard', compact('branches'));
+        $appointments = [];
+        if (Session::get('branch')) :
+            $appointments = Appointment::where('branch_id', Session::get('branch'))->whereNull('mrn_id')->withTrashed()->latest()->get();
+        endif;
+        return view('admin.dashboard', compact('branches', 'appointments'));
     }
 
     public function updateBranch(Request $request)

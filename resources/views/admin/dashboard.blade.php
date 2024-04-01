@@ -3,20 +3,53 @@
 <!-- Body: Body -->
 <div class="body d-flex py-lg-4 py-3">
     <div class="container">
-
         <div class="row">
-            <div class="col-12">
-                <div class="card mb-3">
-                    <div class="card-body text-center p-5">
-                        <img src="{{ asset('/admin/assets/images/no-data.svg') }}" class="w120" alt="No Data">
-                        <div class="mt-4 mb-3">
-                            <span class="text-muted">No data to show</span>
+            <div class="col-md-12">
+                <div class="card p-4 mb-4">
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <h4 class="text-success font-weight-bold">Appointment List</h4>
                         </div>
-                        <button type="button" class="btn btn-white border lift">Get Started</button>
-                        <button type="button" class="btn btn-primary border lift">Back to Home</button>
+                        <div class="col-6 text-end"><a href="{{ route('appointment.create') }}" class="btn btn-success">ADD NEW</button></a></div>
                     </div>
+                    <table id="myTable" class="table display dataTable table-hover table-sm table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>SL No</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Place</th>
+                                <th>Phone Number</th>
+                                <th>Doctor</th>
+                                <th>Branch</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($appointments as $key => $appointment)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td><a href="/admin/consultation/create/Appointment/{{$appointment->isReview()}}/{{$appointment->id}}">{{ $appointment->name }}</a></td>
+                                <td>{{ $appointment->age }}</td>
+                                <td>{{ $appointment->place }}</td>
+                                <td>{{ $appointment->mobile }}</td>
+                                <td>{{ $appointment->doctor->name }}</td>
+                                <td>{{ $appointment->branch->name }}</td>
+                                <td>{{ $appointment->date->format('d, M Y') }}</td>
+                                <td>{{ $appointment->time->format('h:i A') }}</td>
+                                <td>{!! $appointment->status() !!}
+                                <td class="text-center"><a href="{{ route('appointment.edit', encrypt($appointment->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
+                                <td class="text-center"><a href="{{ route('appointment.delete', encrypt($appointment->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
+                            </tr>
+                            @empty
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
-
             </div>
         </div> <!-- .row end -->
     </div>
