@@ -36,4 +36,9 @@ class Order extends Model
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
+
+    public function padvisor()
+    {
+        return $this->hasOne(User::class, 'id', 'product_advisor');
+    }
 }

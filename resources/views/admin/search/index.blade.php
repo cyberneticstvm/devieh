@@ -7,7 +7,7 @@
                 <div class="card p-4 mb-4">
                     <div class="row mb-3">
                         <div class="col-12">
-                            <h4 class="text-success font-weight-bold">Ad Settlement</h4>
+                            <h4 class="text-success font-weight-bold">Search</h4>
                         </div>
                     </div>
                     <div class="card-body">
@@ -70,7 +70,7 @@
                                 <td>{{ $item->mobile }}</td>
                                 <td>{{ $item->place }}</td>
                                 <td><a href="{{ route('pharmacy.order.edit', encrypt($item?->pharmacy?->id)) }}">Medicine</a></td>
-                                <td></td>
+                                <td><a href="{{ route('pdf.receipt', encrypt($item->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i></a></td>
                                 <td></td>
                                 <td>{{ $item?->order?->auth_code }}</td>
                             </tr>
