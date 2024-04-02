@@ -40,9 +40,13 @@
                                 <td>{{ $consultation->mobile }}</td>
                                 <td>{{ $consultation->doctor->name }}</td>
                                 <td class="text-center"><a href="{{ route('pharmacy.order.create', encrypt($consultation->id)) }}"><i class="fa fa-medkit text-danger"></i></a></td>
-                                <td class="text-center"><a href=""><i class="fa fa-file-pdf-o text-danger"></i></a></td>
-                                <td class="text-center"><a href=""><i class="fa fa-file-pdf-o text-danger"></i></a></td>
-                                <td class="text-center"><a href=""><i class="fa fa-file-pdf-o text-danger"></i></a></td>
+                                @if($consultation->purpose_of_visit == 'Consultation')
+                                <td class="text-center"><a href="{{ route('pdf.opt', encrypt($consultation->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i></a></td>
+                                @else
+                                <td class="text-center"><a href="{{ route('pdf.certificate', encrypt($consultation->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i></a></td>
+                                @endif
+                                <td class="text-center"><a href="{{ route('pdf.service.fee', encrypt($consultation->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i></a></td>
+                                <td class="text-center"><a href="{{ route('pdf.receipt', encrypt($consultation->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i></a></td>
                                 <td>{{ $consultation->orderstatus->name }}</td>
                                 <td>{!! $consultation->status() !!}
                                 <td class="text-center"><a href="{{ route('consultation.edit', encrypt($consultation->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>

@@ -11,6 +11,7 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\PharmacyPurchaseController;
 use App\Http\Controllers\PharmacyTransferController;
@@ -243,5 +244,12 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/update/settlement/{id}', 'settlement')->name('ad.settlement');
         Route::put('/update/settlement/{id}', 'settlementUpdate')->name('ad.settlement.update');
         Route::get('/settlement/delete/{id}', 'destroySettlement')->name('ad.settlement.delete');
+    });
+
+    Route::prefix('pdf')->controller(PDFController::class)->group(function () {
+        Route::get('/opt/{id}', 'opTicket')->name('pdf.opt');
+        Route::get('/certificate/{id}', 'certificate')->name('pdf.certificate');
+        Route::get('/service-fee/{id}', 'serviceFee')->name('pdf.service.fee');
+        Route::get('/receipt/{id}', 'receipt')->name('pdf.receipt');
     });
 });
