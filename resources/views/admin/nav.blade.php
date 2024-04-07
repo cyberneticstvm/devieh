@@ -76,6 +76,14 @@
                 }}
             </li>
             <li class="collapsed">
+                <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Authentication" href="#"><i class="fa fa-eye"></i> <span>Drishti</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
+                <!-- Menu: Sub menu ul -->
+                {{
+                    Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
+                    ->linkIfCan('customer-list', route('customer'), 'Cstomer Register')
+                }}
+            </li>
+            <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Authentication" href="#"><i class="fa fa-lock"></i> <span>Settings</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
                 <!-- Menu: Sub menu ul -->
                 <ul class="sub-menu collapse" id="menu-Authentication">

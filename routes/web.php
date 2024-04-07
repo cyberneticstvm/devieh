@@ -8,6 +8,7 @@ use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampPatientController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\Drishti\CustomerController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\OrderController;
@@ -251,5 +252,18 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/certificate/{id}', 'certificate')->name('pdf.certificate');
         Route::get('/service-fee/{id}', 'serviceFee')->name('pdf.service.fee');
         Route::get('/receipt/{id}', 'receipt')->name('pdf.receipt');
+    });
+});
+
+// Route for Drishti //
+
+Route::prefix('admin/drishti/')->middleware(['web', 'auth', 'branch'])->group(function () {
+    Route::prefix('customer')->controller(CustomerController::class)->group(function () {
+        Route::get('/', 'index')->name('customer');
+        Route::get('/create', 'create')->name('customer.create');
+        Route::post('/create', 'store')->name('customer.save');
+        Route::get('/edit/{id}', 'edit')->name('customer.edit');
+        Route::put('/edit/{id}', 'update')->name('customer.update');
+        Route::get('/delete/{id}', 'destroy')->name('customer.delete');
     });
 });

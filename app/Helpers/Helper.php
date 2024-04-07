@@ -89,3 +89,8 @@ function getDiscount($medical_record_id, $discount, $total)
         return ($total * $discount_percentage_for_camp_patient) / 100;
     return $discount;
 }
+
+function dMethods()
+{
+    return array('Direct' => 'Direct', 'Courier' => 'Courier');
+}
