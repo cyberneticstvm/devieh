@@ -89,6 +89,27 @@ function calculateTotal() {
     $(".balance").val(parseFloat(balance).toFixed(2));
 }
 
+function addDrishtiOrderRow() {
+    $.ajax({
+        type: 'GET',
+        url: '/admin/drishti/fetch/category/product/3',
+        dataType: 'json',
+        success: function (res) {
+            console.log(res)
+            $(".powerbox").append(`<tr><td><select class="form-control selPdct pdct" name="product_id[]" required><option></option></select></td><td><input type="text" name="batch_number[]" class="form-control" placeholder="Batch"></td><td><input type="date" name="expiry_date[]" class="form-control" placeholder="0"></td><td><input type="number" name="qty[]" class="form-control text-end qty" step="any" placeholder="0"></td><td><input type="number" name="qty_free[]" class="form-control text-end" step="any" placeholder="0"></td><td><input type="number" name="price[]" class="form-control text-end price" placeholder="0.00" step="any" readonly></td><td><input type="number" name="tot[]" class="form-control border-0 text-end tot" placeholder="0.00" step="any" readonly></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
+            var xdata = $.map(res, function (obj) {
+                obj.text = obj.name || obj.id;
+                return obj;
+            });
+            //$('.selPdct').last().select2().empty();                      
+            $('.selPdct').last().select2({
+                placeholder: 'Select',
+                data: xdata
+            });
+        }
+    });
+}
+
 function addPharmacyOrderRow() {
     $.ajax({
         type: 'GET',

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('code', 15)->unique();
             $table->decimal('price', 7, 2)->default(0);
+            $table->integer('tax_percentage')->default(0);
             $table->string('description')->nullable();
             $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('restrict');
             $table->foreign('category_id')->references('id')->on('subcategories')->onDelete('restrict');

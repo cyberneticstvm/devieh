@@ -20,6 +20,7 @@
                                 <th>Price</th>
                                 <th>Category Name</th>
                                 <th>Subcategory Name</th>
+                                <th>Tax %</th>
                                 <th>Status</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -34,6 +35,7 @@
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->subcategory->name }}</td>
+                                <td>{{ $product->tax_percentage }}</td>
                                 <td>{!! $product->status() !!}
                                 <td class="text-center"><a href="{{ route('drishti.item.edit', encrypt($product->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                                 <td class="text-center"><a href="{{ route('drishti.item.delete', encrypt($product->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>

@@ -260,6 +260,12 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
 // Route for Drishti //
 
 Route::prefix('admin/drishti/')->middleware(['web', 'auth', 'branch'])->group(function () {
+
+    Route::prefix('')->controller(AjaxController::class)->group(function () {
+        Route::get('/fetch/category/product/{id}', 'fetchDrishtiProductsByCategory')->name('ajax.drishti.product.by.category.fetch');
+        Route::get('/fetch/product/{id}', 'fetchProductForDrishti')->name('ajax.drishti.product.fetch');
+    });
+
     Route::prefix('customer')->controller(CustomerController::class)->group(function () {
         Route::get('/', 'index')->name('drishti.customer');
         Route::get('/create', 'create')->name('drishti.customer.create');

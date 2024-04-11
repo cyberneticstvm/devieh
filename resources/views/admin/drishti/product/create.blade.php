@@ -36,9 +36,16 @@
                             </div>
                             <div class="col-lg-2 col-md-6">
                                 <label class="form-label req" for="price">Price</label>
-                                {{ html()->text('price', old('price'))->class('form-control')->attribute('autocomplete', 'false')->maxlength('7')->placeholder('0.0') }}
+                                {{ html()->number('price', old('price'))->class('form-control')->attribute('autocomplete', 'false')->placeholder('0.0') }}
                                 @error('price')
                                 <small class="text-danger">{{ $errors->first('price') }}</small>
+                                @enderror
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <label class="form-label" for="price">Tax %</label>
+                                {{ html()->number('tax_percentage', old('tax_percentage'))->class('form-control')->attribute('autocomplete', 'false')->placeholder('0.0') }}
+                                @error('tax_percentage')
+                                <small class="text-danger">{{ $errors->first('tax_percentage') }}</small>
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-6">
