@@ -9,7 +9,7 @@
                         <div class="col-6">
                             <h4 class="text-success font-weight-bold">Customer Register</h4>
                         </div>
-                        <div class="col-6 text-end"><a href="{{ route('customer.create') }}" class="btn btn-success">ADD NEW</button></a></div>
+                        <div class="col-6 text-end"><a href="{{ route('drishti.customer.create') }}" class="btn btn-success">ADD NEW</button></a></div>
                     </div>
                     <table id="myTable" class="table display dataTable table-hover table-sm table-striped" style="width:100%">
                         <thead>
@@ -33,8 +33,8 @@
                                 <td>{{ $customer->address }}</td>
                                 <td>{{ $customer->credit_limit }}</td>
                                 <td>{!! $customer->status() !!}
-                                <td class="text-center"><a href="{{ route('customer.edit', encrypt($customer->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
-                                <td class="text-center"><a href="{{ route('customer.delete', encrypt($customer->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
+                                <td class="text-center"><a href="{{ route('drishti.customer.edit', encrypt($customer->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
+                                <td class="text-center"><a href="{{ route('drishti.customer.delete', encrypt($customer->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
                             </tr>
                             @empty
                             @endforelse

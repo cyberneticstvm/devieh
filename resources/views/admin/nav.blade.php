@@ -80,8 +80,9 @@
                 <!-- Menu: Sub menu ul -->
                 {{
                     Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
-                    ->linkIfCan('customer-list', route('customer'), 'Customer Register')
-                    ->linkIfCan('drishti-order-list', route('customer'), 'Order Register')
+                    ->linkIfCan('customer-list', route('drishti.customer'), 'Customer Register')
+                    ->linkIfCan('drishti-product-list', route('drishti.item'), 'Product Register')
+                    ->linkIfCan('drishti-order-list', route('drishti.order'), 'Order Register')                    
                 }}
             </li>
             <li class="collapsed">

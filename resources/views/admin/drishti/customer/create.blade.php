@@ -11,7 +11,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        {{ html()->form('POST', route('customer.save'))->class('')->open() }}
+                        {{ html()->form('POST', route('drishti.customer.save'))->class('')->open() }}
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6">
                                 <label class="form-label req" for="name">Name</label>

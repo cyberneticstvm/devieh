@@ -9,6 +9,8 @@ use App\Http\Controllers\CampPatientController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\Drishti\CustomerController;
+use App\Http\Controllers\Drishti\ItemController;
+use App\Http\Controllers\Drishti\OrderController as DrishtiOrderController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\OrderController;
@@ -259,11 +261,29 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
 
 Route::prefix('admin/drishti/')->middleware(['web', 'auth', 'branch'])->group(function () {
     Route::prefix('customer')->controller(CustomerController::class)->group(function () {
-        Route::get('/', 'index')->name('customer');
-        Route::get('/create', 'create')->name('customer.create');
-        Route::post('/create', 'store')->name('customer.save');
-        Route::get('/edit/{id}', 'edit')->name('customer.edit');
-        Route::put('/edit/{id}', 'update')->name('customer.update');
-        Route::get('/delete/{id}', 'destroy')->name('customer.delete');
+        Route::get('/', 'index')->name('drishti.customer');
+        Route::get('/create', 'create')->name('drishti.customer.create');
+        Route::post('/create', 'store')->name('drishti.customer.save');
+        Route::get('/edit/{id}', 'edit')->name('drishti.customer.edit');
+        Route::put('/edit/{id}', 'update')->name('drishti.customer.update');
+        Route::get('/delete/{id}', 'destroy')->name('drishti.customer.delete');
+    });
+
+    Route::prefix('item')->controller(ItemController::class)->group(function () {
+        Route::get('/', 'index')->name('drishti.item');
+        Route::get('/create', 'create')->name('drishti.item.create');
+        Route::post('/create', 'store')->name('drishti.item.save');
+        Route::get('/edit/{id}', 'edit')->name('drishti.item.edit');
+        Route::put('/edit/{id}', 'update')->name('drishti.item.update');
+        Route::get('/delete/{id}', 'destroy')->name('drishti.item.delete');
+    });
+
+    Route::prefix('order')->controller(DrishtiOrderController::class)->group(function () {
+        Route::get('/', 'index')->name('drishti.order');
+        Route::get('/create', 'create')->name('drishti.order.create');
+        Route::post('/create', 'store')->name('drishti.order.save');
+        Route::get('/edit/{id}', 'edit')->name('drishti.order.edit');
+        Route::put('/edit/{id}', 'update')->name('drishti.order.update');
+        Route::get('/delete/{id}', 'destroy')->name('drishti.order.delete');
     });
 });

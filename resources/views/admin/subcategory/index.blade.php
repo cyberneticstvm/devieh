@@ -17,6 +17,7 @@
                                 <th>SL No</th>
                                 <th>Subcategory Name</th>
                                 <th>Category Name</th>
+                                <th>HSN</th>
                                 <th>Status</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -28,6 +29,7 @@
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $subcategory->name }}</td>
                                 <td>{{ $subcategory->category->name }}</td>
+                                <td>{{ $subcategory->hsn }}</td>
                                 <td>{!! $subcategory->status() !!}
                                 <td class="text-center"><a href="{{ route('subcategory.edit', encrypt($subcategory->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                                 <td class="text-center"><a href="{{ route('subcategory.delete', encrypt($subcategory->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>

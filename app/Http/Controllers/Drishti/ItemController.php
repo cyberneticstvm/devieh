@@ -1,30 +1,30 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Drishti;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Product;
+use App\Models\Item;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-
     public function __construct()
     {
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'store']]);
-        $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:drishti-product-list|drishti-product-create|drishti-product-edit|drishti-product-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:drishti-product-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:drishti-product-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:drishti-product-delete', ['only' => ['destroy']]);
     }
 
     public function index()
     {
-        $products = Product::withTrashed()->latest()->get();
-        return view('admin.product.index', compact('products'));
+        $products = Item::withTrashed()->latest()->get();
+        return view('admin.drishti.product.index', compact('products'));
     }
 
     /**
@@ -32,9 +32,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
-        $subcategories = Subcategory::orderBy('name')->get();
-        return view('admin.product.create', compact('categories', 'subcategories'));
+        $categories = Category::where('id', 3)->orderBy('name')->get();
+        $subcategories = Subcategory::where('category_id', 3)->orderBy('name')->get();
+        return view('admin.drishti.product.create', compact('categories', 'subcategories'));
     }
 
     /**
@@ -47,13 +47,12 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'category_id' => 'required',
             'subcategory_id' => 'required',
-            'eligible_for_commission' => 'required',
         ]);
         $input = $request->all();
         $category = Category::findOrFail($request->category_id)->name;
         $input['code'] = substr(strtoupper($category), 0, 1) . random_int(100000, 999999);
-        Product::create($input);
-        return redirect()->route('product')
+        Item::create($input);
+        return redirect()->route('drishti.item')
             ->with('success', 'Product has been created successfully');
     }
 
@@ -70,10 +69,10 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $categories = Category::orderBy('name')->get();
-        $subcategories = Subcategory::orderBy('name')->get();
-        $product = Product::findOrFail(decrypt($id));
-        return view('admin.product.edit', compact('categories', 'subcategories', 'product'));
+        $categories = Category::where('id', 3)->orderBy('name')->get();
+        $subcategories = Subcategory::where('category_id', 3)->orderBy('name')->get();
+        $product = Item::findOrFail(decrypt($id));
+        return view('admin.drishti.product.edit', compact('categories', 'subcategories', 'product'));
     }
 
     /**
@@ -86,11 +85,10 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'category_id' => 'required',
             'subcategory_id' => 'required',
-            'eligible_for_commission' => 'required',
         ]);
         $input = $request->all();
-        Product::findOrFail($id)->update($input);
-        return redirect()->route('product')
+        Item::findOrFail($id)->update($input);
+        return redirect()->route('drishti.item')
             ->with('success', 'Product has been updated successfully');
     }
 
@@ -99,8 +97,8 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        Product::findOrFail(decrypt($id))->delete();
-        return redirect()->route('product')
+        Item::findOrFail(decrypt($id))->delete();
+        return redirect()->route('drishti.item')
             ->with('success', 'Product has been deleted successfully');
     }
 }

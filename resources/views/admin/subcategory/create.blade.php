@@ -27,6 +27,10 @@
                                 <small class="text-danger">{{ $errors->first('category_id') }}</small>
                                 @enderror
                             </div>
+                            <div class="col-lg-3 col-md-4">
+                                <label class="form-label" for="hsn">HSN</label>
+                                {{ html()->text('hsn', old('hsn'))->class('form-control')->attribute('autocomplete', 'false')->placeholder('HSN') }}
+                            </div>
                         </div>
                         <div class="py-3 text-end">
                             <button type="button" class="btn btn-danger" onclick="window.history.back()">CANCEL</button>
