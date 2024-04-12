@@ -11,6 +11,7 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\Drishti\CustomerController;
 use App\Http\Controllers\Drishti\ItemController;
 use App\Http\Controllers\Drishti\OrderController as DrishtiOrderController;
+use App\Http\Controllers\Drishti\PurchaseController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\OrderController;
@@ -291,5 +292,14 @@ Route::prefix('admin/drishti/')->middleware(['web', 'auth', 'branch'])->group(fu
         Route::get('/edit/{id}', 'edit')->name('drishti.order.edit');
         Route::put('/edit/{id}', 'update')->name('drishti.order.update');
         Route::get('/delete/{id}', 'destroy')->name('drishti.order.delete');
+    });
+
+    Route::prefix('purchase')->controller(PurchaseController::class)->group(function () {
+        Route::get('/', 'index')->name('drishti.purchase');
+        Route::get('/create', 'create')->name('drishti.purchase.create');
+        Route::post('/create', 'store')->name('drishti.purchase.save');
+        Route::get('/edit/{id}', 'edit')->name('drishti.purchase.edit');
+        Route::put('/edit/{id}', 'update')->name('drishti.purchase.update');
+        Route::get('/delete/{id}', 'destroy')->name('drishti.purchase.delete');
     });
 });

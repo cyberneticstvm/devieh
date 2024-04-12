@@ -7,11 +7,11 @@
                 <div class="card p-4 mb-4">
                     <div class="row mb-3">
                         <div class="col-12">
-                            <h4 class="text-success font-weight-bold">Update Store Purchase</h4>
+                            <h4 class="text-success font-weight-bold">Update Drishti Purchase</h4>
                         </div>
                     </div>
                     <div class="card-body">
-                        {{ html()->form('PUT', route('pharmacy.purchase.update', $purchase->id))->class('')->open() }}
+                        {{ html()->form('PUT', route('drishti.purchase.update', $purchase->id))->class('')->open() }}
                         <div class="row g-3">
                             <div class="col-lg-4 col-md-6">
                                 <label class="form-label req" for="name">Supplier Name</label>
@@ -57,14 +57,14 @@
                                             <th width="15%">EXPIRY DATE</th>
                                             <th>PURCHASE PRICE</th>
                                             <th>SELLING PRICE</th>
-                                            <th class="text-center"><a href="javascript:void(0)" onclick="addPharmacyPurchaseRow()"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
+                                            <th class="text-center"><a href="javascript:void(0)" onclick="addDrishtiPurchaseRow()"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
                                         </tr>
                                     </thead>
-                                    <tbody class="pharmacyPurchaseTbl">
+                                    <tbody class="drishtiPurchaseTbl">
                                         @forelse($purchase->details as $key => $item)
                                         <tr>
                                             <td>
-                                                {{ html()->select('product_id[]', $products, $item->product_id)->class('form-control select2')->attribute('required', 'true')->placeholder('Select') }}
+                                                {{ html()->select('product_id[]', $products, $item->item_id)->class('form-control select2')->attribute('required', 'true')->placeholder('Select') }}
                                             </td>
                                             <td>
                                                 {{ html()->number('qty[]', $item->qty, $min=1, '', $step='1')->class('text-end form-control')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('0') }}

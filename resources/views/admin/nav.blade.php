@@ -83,6 +83,7 @@
                     ->linkIfCan('customer-list', route('drishti.customer'), 'Customer Register')
                     ->linkIfCan('drishti-product-list', route('drishti.item'), 'Product Register')
                     ->linkIfCan('drishti-order-list', route('drishti.order'), 'Order Register')                    
+                    ->linkIfCan('drishti-purchase-list', route('drishti.purchase'), 'Purchase')                    
                 }}
             </li>
             <li class="collapsed">
