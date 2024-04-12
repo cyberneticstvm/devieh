@@ -12,6 +12,8 @@ class SaleDetail extends Model
 
     protected $guarded = [];
 
+    protected $casts = ['expiry_date' => 'datetime'];
+
     public function product()
     {
         return $this->belongsTo(Item::class, 'item', 'id');

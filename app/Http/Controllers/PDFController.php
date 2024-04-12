@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MedicalRecord;
 use App\Models\Order;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Carbon\Carbon;
@@ -62,5 +63,13 @@ class PDFController extends Controller
             return back()->with("error", "No order found for this MRN");
         }
         return $pdf->stream('receipt.pdf');
+    }
+
+    public function drishtiOrderInvoice(string $id)
+    {
+        $order = Sale::findOrFail(decrypt($id));
+        $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($this->qrtext));
+        $pdf = PDF::loadView('/admin/drishti/pdf/invoice', compact('order', 'qrcode'));
+        return $pdf->stream('invoice.pdf');
     }
 }

@@ -302,4 +302,8 @@ Route::prefix('admin/drishti/')->middleware(['web', 'auth', 'branch'])->group(fu
         Route::put('/edit/{id}', 'update')->name('drishti.purchase.update');
         Route::get('/delete/{id}', 'destroy')->name('drishti.purchase.delete');
     });
+
+    Route::prefix('pdf')->controller(PDFController::class)->group(function () {
+        Route::get('/order/invoice/{id}', 'drishtiOrderInvoice')->name('pdf.drishti.order.invoice');
+    });
 });

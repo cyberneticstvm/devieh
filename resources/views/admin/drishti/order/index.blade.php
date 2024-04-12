@@ -35,7 +35,7 @@
                                 <td>{{ $order->customer->contact_number }}</td>
                                 <td>{{ $order->customer->address }}</td>
                                 <td>{{ $order->total_after_discount }}</td>
-                                <td class="text-center"><a href=""><i class="fa fa-file-pdf-o text-danger"></i></a></td>
+                                <td class="text-center"><a target="_blank" href="{{ route('pdf.drishti.order.invoice', encrypt($order->id)) }}"><i class="fa fa-file-pdf-o text-danger"></i></a></td>
                                 <td>{!! $order->status() !!}</td>
                                 <td class="text-center"><a href="{{ route('drishti.order.edit', encrypt($order->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                                 <td class="text-center"><a href="{{ route('drishti.order.delete', encrypt($order->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
