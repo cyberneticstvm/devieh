@@ -61,6 +61,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::prefix('admin/')->controller(UserController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         Route::post('/user/branch/update', [UserController::class, 'updateBranch'])->name('user.branch.update');
+        Route::get('/logout', 'logout')->name('logout');
     });
 });
 
@@ -85,7 +86,6 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('user.edit');
         Route::put('/edit/{id}', 'update')->name('user.update');
         Route::get('/delete/{id}', 'destroy')->name('user.delete');
-        Route::get('/logout', 'logout')->name('logout');
     });
 
     Route::prefix('branch')->controller(BranchController::class)->group(function () {
