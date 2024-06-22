@@ -51,7 +51,7 @@
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <label class="form-label req" for="branch_id">Branch</label>
-                                {{ html()->select($name = 'branch_id', $value = $branchess->pluck('name', 'id'), old('branch_id'))->class('form-control appbranch appTime')->placeholder('Select Branch') }}
+                                {{ html()->select($name = 'branch_id', $value = $branches->pluck('name', 'id'), old('branch_id'))->class('form-control appbranch appTime')->placeholder('Select Branch') }}
                                 @error('branch_id')
                                 <small class="text-danger">{{ $errors->first('branch_id') }}</small>
                                 @enderror

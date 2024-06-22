@@ -61,8 +61,7 @@ class UserController extends Controller
             $appointments = Appointment::where('branch_id', Session::get('branch'))->whereNull('mrn_id')->withTrashed()->latest()->get();
         endif;
         $doctors = Doctor::all();
-        $branchess = Branch::all();
-        return view('admin.dashboard', compact('branches', 'appointments', 'doctors', 'branchess'));
+        return view('admin.dashboard', compact('branches', 'appointments', 'doctors', 'branches'));
     }
 
     public function updateBranch(Request $request)
