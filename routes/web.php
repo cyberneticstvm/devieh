@@ -12,7 +12,9 @@ use App\Http\Controllers\Drishti\CustomerController;
 use App\Http\Controllers\Drishti\ItemController;
 use App\Http\Controllers\Drishti\OrderController as DrishtiOrderController;
 use App\Http\Controllers\Drishti\PurchaseController;
+use App\Http\Controllers\HeadsController;
 use App\Http\Controllers\HelperController;
+use App\Http\Controllers\IncomeExpenseController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PDFController;
@@ -109,6 +111,24 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('doctor.edit');
         Route::put('/edit/{id}', 'update')->name('doctor.update');
         Route::get('/delete/{id}', 'destroy')->name('doctor.delete');
+    });
+
+    Route::prefix('heads')->controller(HeadsController::class)->group(function () {
+        Route::get('/', 'index')->name('heads');
+        Route::get('/create', 'create')->name('head.create');
+        Route::post('/create', 'store')->name('head.save');
+        Route::get('/edit/{id}', 'edit')->name('head.edit');
+        Route::put('/edit/{id}', 'update')->name('head.update');
+        Route::get('/delete/{id}', 'destroy')->name('head.delete');
+    });
+
+    Route::prefix('iande')->controller(IncomeExpenseController::class)->group(function () {
+        Route::get('/', 'index')->name('iande');
+        Route::get('/create/{category}', 'create')->name('iande.create');
+        Route::post('/create', 'store')->name('iande.save');
+        Route::get('/edit/{id}', 'edit')->name('iande.edit');
+        Route::put('/edit/{id}', 'update')->name('iande.update');
+        Route::get('/delete/{id}', 'destroy')->name('iande.delete');
     });
 
     Route::prefix('category')->controller(CategoryController::class)->group(function () {

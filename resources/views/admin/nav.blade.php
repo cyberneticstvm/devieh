@@ -70,8 +70,8 @@
                 <!-- Menu: Sub menu ul -->
                 {{
                     Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
-                    ->linkIfCan('branch-list', route('branch'), 'Head')
-                    ->linkIfCan('doctor-list', route('doctor'), 'Expense')
+                    ->linkIfCan('head-list', route('heads'), 'Head')
+                    ->linkIfCan('income-expense-list', route('iande'), 'Income & Expense')
                     ->linkIfCan('supplier-list', route('supplier'), 'Supplier')
                 }}
             </li>
