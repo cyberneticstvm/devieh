@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Branch;
+use App\Models\Doctor;
+use App\Models\PaymentMode;
 use App\Models\User;
 use App\Models\UserBranch;
 use Exception;
@@ -58,7 +60,9 @@ class UserController extends Controller
         if (Session::get('branch')) :
             $appointments = Appointment::where('branch_id', Session::get('branch'))->whereNull('mrn_id')->withTrashed()->latest()->get();
         endif;
-        return view('admin.dashboard', compact('branches', 'appointments'));
+        $doctors = Doctor::all();
+        $branches = Branch::all();
+        return view('admin.dashboard', compact('branches', 'appointments', 'doctors', 'branches'));
     }
 
     public function updateBranch(Request $request)

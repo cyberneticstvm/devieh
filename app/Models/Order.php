@@ -12,6 +12,8 @@ class Order extends Model
 
     protected $guarded = [];
 
+    protected $casts = ['created_at' => 'datetime'];
+
     public function status()
     {
         return ($this->deleted_at) ? "<span class='badge bg-danger'>Deleted</span>" : "<span class='badge bg-success'>Active</span>";

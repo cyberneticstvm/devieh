@@ -126,7 +126,7 @@
                 @endforelse
                 <tr>
                     <td colspan="10">
-                        Remarks: {{ $mrecord->order->remarks }}, Pdct.Adv: {{ $mrecord->order->padvisor->name }}<br />
+                        Remarks: {{ $mrecord->order->remarks }}, Pdct.Adv: {{ $mrecord->order->padvisor?->name }}<br />
                     </td>
                 </tr>
                 <tr>

@@ -17,11 +17,13 @@ use App\Http\Controllers\HelperController;
 use App\Http\Controllers\IncomeExpenseController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\PharmacyPurchaseController;
 use App\Http\Controllers\PharmacyTransferController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StorePurchaseController;
 use App\Http\Controllers\StoreTransferController;
@@ -212,6 +214,15 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/delete/{id}', 'destroy')->name('pharmacy.order.delete');
     });
 
+    Route::prefix('payment')->controller(PaymentController::class)->group(function () {
+        Route::get('/', 'index')->name('payments');
+        Route::get('/create', 'create')->name('payment.create');
+        Route::post('/create', 'store')->name('payment.save');
+        Route::get('/edit/{id}', 'edit')->name('payment.edit');
+        Route::put('/edit/{id}', 'update')->name('payment.update');
+        Route::get('/delete/{id}', 'destroy')->name('payment.delete');
+    });
+
     Route::prefix('supplier')->controller(SupplierController::class)->group(function () {
         Route::get('/', 'index')->name('supplier');
         Route::get('/create', 'create')->name('supplier.create');
@@ -268,6 +279,11 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/update/settlement/{id}', 'settlement')->name('ad.settlement');
         Route::put('/update/settlement/{id}', 'settlementUpdate')->name('ad.settlement.update');
         Route::get('/settlement/delete/{id}', 'destroySettlement')->name('ad.settlement.delete');
+    });
+
+    Route::prefix('report')->controller(ReportController::class)->group(function () {
+        Route::get('/daybook', 'dayBook')->name('report.daybook');
+        Route::post('/daybook', 'dayBookFetch')->name('report.daybook.fetch');
     });
 
     Route::prefix('pdf')->controller(PDFController::class)->group(function () {

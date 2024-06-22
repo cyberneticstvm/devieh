@@ -41,27 +41,21 @@ class PDFController extends Controller
     {
         $mrecord = MedicalRecord::findOrFail(decrypt($id));
         $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($this->qrtext));
-        $pdf = PDF::loadView('/admin/pdf/service-fee', compact('mrecord', 'qrcode'));
-        return $pdf->stream('receipt.pdf');
+        $pdf = PDF::loadView('admin.pdf.service-fee', compact('mrecord', 'qrcode'));
+        return $pdf->stream('service-fee.pdf');
     }
 
     public function receipt(string $id)
     {
-        try {
-            $mrecord = MedicalRecord::findOrFail(decrypt($id));
-            //$order = Order::where('medical_record_id', $mrecord->id)->firstOrFail();
-            $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($this->qrtext));
-            $pdf = PDF::loadView('/admin/pdf/receipt', compact('mrecord', 'qrcode'));
-            $pdf->output();
-            $canvas = $pdf->getDomPDF()->getCanvas();
-            $height = $canvas->get_height();
-            $width = $canvas->get_width();
-            $canvas->set_opacity(.2);
-            //$canvas->page_text($x, $y, $text, $font, 40,$color = array(255,0,0),$word_space = 0.0, $char_space = 0.0, $angle = 20.0);
-            $canvas->page_text($width / 2.5, $height / 1.3, 'LAB COPY', null, 40, array(0, 0, 0), 2, 2, -40);
-        } catch (Exception $e) {
-            return back()->with("error", "No order found for this MRN");
-        }
+        $mrecord = MedicalRecord::findOrFail(decrypt($id));
+        $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($this->qrtext));
+        $pdf = PDF::loadView('admin.pdf.receipt', compact('mrecord', 'qrcode'));
+        $pdf->output();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+        $height = $canvas->get_height();
+        $width = $canvas->get_width();
+        $canvas->set_opacity(.2);
+        $canvas->page_text($width / 2.5, $height / 1.3, 'LAB COPY', null, 40, array(0, 0, 0), 2, 2, -40);
         return $pdf->stream('receipt.pdf');
     }
 

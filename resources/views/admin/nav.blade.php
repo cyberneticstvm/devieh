@@ -34,6 +34,7 @@
                     Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
                     ->linkIfCan('store-order-list', route('store.order'), 'Store Orders')
                     ->linkIfCan('pharmacy-order-list', route('pharmacy.order'), 'Pharmacy Orders')
+                    ->linkIfCan('payment-list', route('payments'), 'Payments')
                 }}
             </li>
             <li class="collapsed">
@@ -57,13 +58,14 @@
             <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Authentication" href="#"><i class="fa fa-lock"></i> <span>Reports</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
                 <!-- Menu: Sub menu ul -->
-                <ul class="sub-menu collapse" id="menu-Authentication">
-                    <li><a class="ms-link" href="#">Daybook</a></li>
-                    <li><a class="ms-link" href="#">Lab</a></li>
-                    <li><a class="ms-link" href="#">Sales (Store)</a></li>
-                    <li><a class="ms-link" href="#">Sales (Pharmacy)</a></li>
-                    <li><a class="ms-link" href="#">Expense</a></li>
-                </ul>
+                {{
+                    Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
+                    ->linkIfCan('report-daybook', route('report.daybook'), 'Daybook')
+                    ->linkIfCan('report-daybook', route('report.daybook'), 'Lab')
+                    ->linkIfCan('report-daybook', route('report.daybook'), 'Sales (Store)')
+                    ->linkIfCan('report-daybook', route('report.daybook'), 'Sales (Pharmacy)')
+                    ->linkIfCan('report-daybook', route('report.daybook'), 'Income & Expense')
+                }}
             </li>
             <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Authentication" href="#"><i class="fa fa-lock"></i> <span>Extras</span> <span class="arrow fa fa-dot-circle-o ms-auto text-end"></span></a>
