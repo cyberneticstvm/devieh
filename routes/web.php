@@ -216,7 +216,9 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
 
     Route::prefix('payment')->controller(PaymentController::class)->group(function () {
         Route::get('/', 'index')->name('payments');
-        Route::get('/create', 'create')->name('payment.create');
+        Route::post('/', 'show')->name('payment.fetch');
+        Route::get('/proceed', 'show')->name('payment.proceed');
+        Route::get('/create/{id}', 'create')->name('payment.create');
         Route::post('/create', 'store')->name('payment.save');
         Route::get('/edit/{id}', 'edit')->name('payment.edit');
         Route::put('/edit/{id}', 'update')->name('payment.update');

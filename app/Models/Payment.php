@@ -26,4 +26,9 @@ class Payment extends Model
     {
         return $this->belongsTo(PaymentMode::class, 'payment_mode', 'id');
     }
+
+    public function mrecord()
+    {
+        return $this->belongsTo(MedicalRecord::class, 'medical_record_id', 'id');
+    }
 }
