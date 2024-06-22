@@ -70,7 +70,7 @@
                         <div class="col-auto">
                             <h1 class="fs-4 mt-1 mb-0">Hello, <span class="text-info"> {{ Auth::user()->name }}!</span></h1>
                             @if(Session::has('branch'))
-                            <small class="text-muted">You are currently logged into in <span class="text-info">{{ currentBranch()->name }}</span> branch.</small>
+                            <small class="text-muted">You are currently logged into in <span class="text-info">{{ currentBranch()?->name }}</span> branch.</small>
                             @endif
                         </div>
                         <div class="col d-flex justify-content-lg-end mt-2 mt-md-0">
