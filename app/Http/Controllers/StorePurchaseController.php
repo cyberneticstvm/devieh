@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseDetail;
+use App\Models\Stock;
 use App\Models\Supplier;
 use App\Models\Transfer;
 use App\Models\TransferDetail;
@@ -74,6 +75,19 @@ class StorePurchaseController extends Controller
                     'created_by' => $request->user()->id,
                     'updated_by' => $request->user()->id,
                 ]);
+                foreach ($request->product_id as $key => $item) :
+                    for ($i = 0; $i < $request->qty[$key]; $i++) :
+                        Stock::create([
+                            'product_id' => $item,
+                            'purchase_id' => $purchase->id,
+                            'unique_pcode' => uniquePcode('S'),
+                            'type' => 'store',
+                            'branch_id' => 0,
+                            'created_by' => $request->user()->id,
+                            'updated_by' => $request->user()->id,
+                        ]);
+                    endfor;
+                endforeach;
                 $data = [];
                 $data1 = [];
                 foreach ($request->product_id as $key => $item) :
@@ -178,6 +192,20 @@ class StorePurchaseController extends Controller
                 endforeach;
                 PurchaseDetail::where('purchase_id', $id)->delete();
                 TransferDetail::where('transfer_id', $tr->id)->delete();
+                Stock::where('purchase_id', $id)->delete();
+                foreach ($request->product_id as $key => $item) :
+                    for ($i = 0; $i < $request->qty[$key]; $i++) :
+                        Stock::create([
+                            'product_id' => $item,
+                            'purchase_id' => $id,
+                            'unique_pcode' => uniquePcode('S'),
+                            'type' => 'store',
+                            'branch_id' => 0,
+                            'created_by' => $request->user()->id,
+                            'updated_by' => $request->user()->id,
+                        ]);
+                    endfor;
+                endforeach;
                 PurchaseDetail::insert($data);
                 TransferDetail::insert($data1);
             });
@@ -197,6 +225,7 @@ class StorePurchaseController extends Controller
                 $tr = Transfer::where('transfer_note', 'LIKE', '% id of ' . decrypt($id))->firstOrFail();
                 Purchase::findOrFail(decrypt($id))->delete();
                 Transfer::findOrFail($tr->id)->delete();
+                Stock::where('purchase_id', decrypt($id))->delete();
             });
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage());

@@ -193,12 +193,12 @@ function addStoreTransferRow() {
         url: '/admin/ajax/fetch/category/not/product/3',
         dataType: 'json',
         success: function (res) {
-            $(".storeTransferTbl").append(`<tr><td><select class="form-control purPdct" name="product_id[]" required><option></option></select></td><td><input type="number" name="qty[]" class="text-end form-control" min="1" step="1" placeholder="0" required></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
+            $(".storeTransferTbl").append(`<tr><td><select class="form-control selPdctStoreTrns" name="product_id[]" required><option></option></select></td><td><input type="number" name="avl_qty[]" class="text-end form-control" min="0" step="any" placeholder="0" disabled></td><td><input type="number" name="qty[]" class="text-end form-control" min="1" step="1" placeholder="0" required></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
             var xdata = $.map(res, function (obj) {
                 obj.text = obj.name || obj.id;
                 return obj;
             });
-            $('.purPdct').last().select2({
+            $('.selPdctStoreTrns').last().select2({
                 placeholder: 'Select',
                 data: xdata
             });
@@ -220,6 +220,26 @@ function addPharmacyTransferRow() {
             $('.purPdct').last().select2({
                 placeholder: 'Select',
                 data: xdata
+            });
+        }
+    });
+
+    $(document).on("change", ".selPdctForTransfer", function () {
+        var dis = $(this); var product = dis.val(); var category = dis.data('category');
+        var branch = $("#from_branch").val();
+        if (product && category && branch) {
+            $.ajax({
+                type: 'GET',
+                url: '/ajax/stock/' + branch + '/' + category + '/' + product,
+                dataType: 'json',
+                success: function (res) {
+                    dis.parent().parent().find(".qtyAvailable").text(res[0].balanceQty);
+                    dis.parent().parent().find(".qtyMax").attr("max", res[0].balanceQty);
+                    //console.log(res);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
             });
         }
     });

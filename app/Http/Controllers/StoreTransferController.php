@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Product;
+use App\Models\Stock;
 use App\Models\Transfer;
 use App\Models\TransferDetail;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Svg\Gradient\Stop;
 
 class StoreTransferController extends Controller
 {
@@ -37,8 +39,9 @@ class StoreTransferController extends Controller
     {
         $brs = Branch::selectRaw("0 as id, 'Main Branch' as name");
         $branches = Branch::selectRaw("id, name")->union($brs)->orderBy('id')->pluck('name', 'id');
-        $products = Product::whereIn('category_id', [3])->pluck('name', 'id');
-        return view('admin.transfer.pharmacy.create', compact('branches', 'products'));
+        //$products = Product::whereIn('category_id', [3])->pluck('name', 'id');
+        $products = Stock::leftJoin('products AS p', 'p.id', 'stocks.product_id')->where('stocks.type', 'store')->where('stocks.branch_id', 0)->selectRaw("CONCAT_WS('-', stocks.unique_pcode, p.name) AS name, stocks.id")->pluck('name', 'id');
+        return view('admin.transfer.store.create', compact('branches', 'products'));
     }
 
     /**

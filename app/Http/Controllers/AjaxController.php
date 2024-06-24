@@ -44,4 +44,10 @@ class AjaxController extends Controller
         $products = Product::whereNotIn('category_id', [$category])->get();
         return response()->json($products);
     }
+
+    public function getAvailableStock($branch, $category, $product)
+    {
+        $data = getInventory($branch, $category, $product, 0);
+        return response()->json($data);
+    }
 }

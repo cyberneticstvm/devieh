@@ -15,7 +15,7 @@
                         <div class="row g-3">
                             <div class="col-lg-3 col-md-6">
                                 <label class="form-label req" for="from_branch">From Branch</label>
-                                {{ html()->select($name = 'from_branch', $value = $branches, old('from_branch'))->class('form-control')->placeholder('Select')->attribute('required', 'true') }}
+                                {{ html()->select($name = 'from_branch', $value = $branches, old('from_branch'))->attribute('id', 'from_branch')->class('form-control')->attribute('required', 'true') }}
                                 @error('from_branch')
                                 <small class="text-danger">{{ $errors->first('from_branch') }}</small>
                                 @enderror
@@ -37,18 +37,22 @@
                                 <table class="table display table-sm">
                                     <thead>
                                         <tr>
-                                            <th>PRODUCT</th>
-                                            <th>QTY</th>
+                                            <th width="50%">Product</th>
+                                            <th>Avl. Qty</th>
+                                            <th>Trns. Qty</th>
                                             <th class="text-center"><a href="javascript:void(0)" onclick="addStoreTransferRow()"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
                                         </tr>
                                     </thead>
                                     <tbody class="storeTransferTbl">
                                         <tr>
                                             <td>
-                                                {{ html()->select('product_id[]', $products, (old('product_id')) ? old('product_id')[0] : '')->class('form-control select2 pdct')->attribute('id', 'lens1')->attribute('required', 'true')->placeholder('Select') }}
+                                                {{ html()->select('product_id[]', $products, (old('product_id')) ? old('product_id')[0] : '')->class('form-control select2 selPdctForTransfer')->attribute('id', 'store')->attribute('required', 'true')->attribute('data-category', 'store')->placeholder('Select') }}
                                             </td>
                                             <td>
-                                                {{ html()->number('qty[]', (old('qty')) ? old('qty')[0] : '', '1', '', '1')->class('text-end form-control')->attribute('required', 'true')->placeholder('0') }}
+                                                {{ html()->number('avl_qty[]', (old('avl_qty')) ? old('avl_qty')[0] : '', '1', '', '1')->class('text-end form-control qtyAvailable')->placeholder('0')->disabled() }}
+                                            </td>
+                                            <td>
+                                                {{ html()->number('qty[]', (old('qty')) ? old('qty')[0] : '', '1', '', '1')->class('text-end form-control qtyMax')->attribute('required', 'true')->placeholder('0') }}
                                             </td>
                                         </tr>
                                     </tbody>

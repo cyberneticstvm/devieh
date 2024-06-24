@@ -5,6 +5,7 @@ use App\Models\Branch;
 use App\Models\CampPatient;
 use App\Models\Doctor;
 use App\Models\Setting;
+use App\Models\Stock;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -93,4 +94,18 @@ function getDiscount($medical_record_id, $discount, $total)
 function dMethods()
 {
     return array('Direct' => 'Direct', 'Courier' => 'Courier');
+}
+
+function uniquePcode($str)
+{
+    do {
+        $code = $str . random_int(1000000, 9999999);
+    } while (Stock::where("unique_pcode", $code)->first());
+
+    return $code;
+}
+
+function getInventory($branch, $category, $product, $editQty)
+{
+    //
 }
