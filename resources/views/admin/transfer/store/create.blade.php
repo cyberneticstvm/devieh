@@ -37,22 +37,22 @@
                                 <table class="table display table-sm">
                                     <thead>
                                         <tr>
-                                            <th width="50%">Product</th>
-                                            <th>Avl. Qty</th>
+                                            <th width="80%">Product</th>
+                                            <!--<th>Avl. Qty</th>-->
                                             <th>Trns. Qty</th>
-                                            <th class="text-center"><a href="javascript:void(0)" onclick="addStoreTransferRow()"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
+                                            <th class="text-center"><a href="javascript:void(0)" onclick="addTransferRow('store')"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
                                         </tr>
                                     </thead>
-                                    <tbody class="storeTransferTbl">
+                                    <tbody class="transferTbl">
                                         <tr>
                                             <td>
-                                                {{ html()->select('product_id[]', $products, (old('product_id')) ? old('product_id')[0] : '')->class('form-control select2 selPdctForTransfer')->attribute('id', 'store')->attribute('required', 'true')->attribute('data-category', 'store')->placeholder('Select') }}
+                                                {{ html()->select('product_id[]', $products->pluck('name', 'id'), (old('product_id')) ? old('product_id')[0] : '')->class('form-control select2 selPdctForTransfer')->attribute('id', 'store')->attribute('required', 'true')->attribute('data-type', 'store')->attribute('data-category', 'transfer')->attribute('data-editQty', 0)->placeholder('Select') }}
                                             </td>
+                                            <!--<td>
+                                                {{ html()->text('avl_qty[]', (old('avl_qty')) ? old('avl_qty')[0] : '', '1', '', '1')->class('text-end form-control qtyAvailable')->placeholder('0')->disabled() }}
+                                            </td>-->
                                             <td>
-                                                {{ html()->number('avl_qty[]', (old('avl_qty')) ? old('avl_qty')[0] : '', '1', '', '1')->class('text-end form-control qtyAvailable')->placeholder('0')->disabled() }}
-                                            </td>
-                                            <td>
-                                                {{ html()->number('qty[]', (old('qty')) ? old('qty')[0] : '', '1', '', '1')->class('text-end form-control qtyMax')->attribute('required', 'true')->placeholder('0') }}
+                                                {{ html()->text('qty[]', (old('qty')) ? old('qty')[0] : '1', '1', '1', '1')->class('text-end form-control qtyMax')->attribute('required', 'true')->attribute('readonly', true)->placeholder('0') }}
                                             </td>
                                         </tr>
                                     </tbody>

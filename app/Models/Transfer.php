@@ -31,4 +31,9 @@ class Transfer extends Model
     {
         return $this->hasMany(TransferDetail::class, 'transfer_id', 'id');
     }
+
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class, 'transfer_id', 'id');
+    }
 }

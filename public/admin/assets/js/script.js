@@ -72,6 +72,34 @@ $(document).ready(function () {
         calculateTotal();
     });
 
+    $(document).on("change", "#from_branch", function () {
+        $(".transferTbl tr td").each(function(){
+            $(this).find(".form-control").val("");
+            $(this).find(".select2").select2();
+        })
+    });
+
+    $(document).on("change", ".selPdctForTransfer", function () {
+        var dis = $(this); var product = dis.val(); var type = dis.data('type');
+        var category = dis.data('category'); var editQty = $(this).data('editQty')
+        var branch = $("#from_branch").val();
+        if (product && category && branch && type) {
+            $.ajax({
+                type: 'GET',
+                url: '/admin/ajax/stock/' + branch + '/' + type + '/' + product + '/' +category + '/' +editQty,
+                dataType: 'json',
+                success: function (res) {
+                    //dis.parent().parent().find(".qtyAvailable").val(res[0].balanceQty);
+                    dis.parent().parent().find(".qtyMax").attr("max", res[0].balanceQty);
+                    console.log(res);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+    });
+
 });
 
 function calculateTotal() {
@@ -187,18 +215,19 @@ function addPharmacyPurchaseRow() {
     });
 }
 
-function addStoreTransferRow() {
+function addTransferRow(type) {
+    var branch = $("#from_branch").val();
     $.ajax({
         type: 'GET',
-        url: '/admin/ajax/fetch/category/not/product/3',
+        url: '/admin/ajax/stock/products/' + type + '/' + branch,
         dataType: 'json',
         success: function (res) {
-            $(".storeTransferTbl").append(`<tr><td><select class="form-control selPdctStoreTrns" name="product_id[]" required><option></option></select></td><td><input type="number" name="avl_qty[]" class="text-end form-control" min="0" step="any" placeholder="0" disabled></td><td><input type="number" name="qty[]" class="text-end form-control" min="1" step="1" placeholder="0" required></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
+            $(".transferTbl").append(`<tr><td><select class="form-control selPdctForTransfer" name="product_id[]" data-type='${type}' data-category='transfer' required><option></option></select></td><!--<td><input type="number" name="avl_qty[]" class="text-end form-control qtyAvailable" min="0" step="any" placeholder="0" disabled></td>--><td><input type="text" name="qty[]" class="text-end form-control qtyMax" min="1" max="1" step="1" placeholder="0" value="1" readonly required></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
             var xdata = $.map(res, function (obj) {
                 obj.text = obj.name || obj.id;
                 return obj;
             });
-            $('.selPdctStoreTrns').last().select2({
+            $('.selPdctForTransfer').last().select2({
                 placeholder: 'Select',
                 data: xdata
             });
@@ -220,26 +249,6 @@ function addPharmacyTransferRow() {
             $('.purPdct').last().select2({
                 placeholder: 'Select',
                 data: xdata
-            });
-        }
-    });
-
-    $(document).on("change", ".selPdctForTransfer", function () {
-        var dis = $(this); var product = dis.val(); var category = dis.data('category');
-        var branch = $("#from_branch").val();
-        if (product && category && branch) {
-            $.ajax({
-                type: 'GET',
-                url: '/ajax/stock/' + branch + '/' + category + '/' + product,
-                dataType: 'json',
-                success: function (res) {
-                    dis.parent().parent().find(".qtyAvailable").text(res[0].balanceQty);
-                    dis.parent().parent().find(".qtyMax").attr("max", res[0].balanceQty);
-                    //console.log(res);
-                },
-                error: function (err) {
-                    console.log(err);
-                }
             });
         }
     });

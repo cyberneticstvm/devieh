@@ -10,6 +10,7 @@ use App\Models\TransferDetail;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Svg\Gradient\Stop;
 
@@ -40,7 +41,7 @@ class StoreTransferController extends Controller
         $brs = Branch::selectRaw("0 as id, 'Main Branch' as name");
         $branches = Branch::selectRaw("id, name")->union($brs)->orderBy('id')->pluck('name', 'id');
         //$products = Product::whereIn('category_id', [3])->pluck('name', 'id');
-        $products = Stock::leftJoin('products AS p', 'p.id', 'stocks.product_id')->where('stocks.type', 'store')->where('stocks.branch_id', 0)->selectRaw("CONCAT_WS('-', stocks.unique_pcode, p.name) AS name, stocks.id")->pluck('name', 'id');
+        $products = getStockProducts('store', 0);
         return view('admin.transfer.store.create', compact('branches', 'products'));
     }
 
@@ -65,9 +66,10 @@ class StoreTransferController extends Controller
                 ]);
                 $data = [];
                 foreach ($request->product_id as $key => $item) :
+                    $stock = Stock::findOrFail($item);
                     $data[] = [
                         'transfer_id' => $transfer->id,
-                        'product_id' => $item,
+                        'product_id' => $stock->product_id,
                         'qty' => $request->qty[$key],
                         'from_branch' => $request->from_branch,
                         'to_branch' => $request->to_branch,
@@ -75,6 +77,11 @@ class StoreTransferController extends Controller
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ];
+                    Stock::findOrFail($item)->update([
+                        'transfer_id' => $transfer->id,
+                        'branch_id' => $request->to_branch,
+                        'updated_by' => $request->user()->id,
+                    ]);
                 endforeach;
                 TransferDetail::insert($data);
             });
@@ -100,7 +107,7 @@ class StoreTransferController extends Controller
         $transfer = Transfer::findOrFail(decrypt($id));
         $brs = Branch::selectRaw("0 as id, 'Main Branch' as name");
         $branches = Branch::selectRaw("id, name")->union($brs)->orderBy('id')->pluck('name', 'id');
-        $products = Product::whereNotIn('category_id', [3])->pluck('name', 'id');
+        $products = getStockProducts('store', 0);
         return view('admin.transfer.store.edit', compact('branches', 'products', 'transfer'));
     }
 
@@ -124,9 +131,10 @@ class StoreTransferController extends Controller
                 ]);
                 $data = [];
                 foreach ($request->product_id as $key => $item) :
+                    $stock = Stock::findOrFail($item);
                     $data[] = [
                         'transfer_id' => $transfer->id,
-                        'product_id' => $item,
+                        'product_id' => $stock->product_id,
                         'qty' => $request->qty[$key],
                         'from_branch' => $request->from_branch,
                         'to_branch' => $request->to_branch,
@@ -134,6 +142,11 @@ class StoreTransferController extends Controller
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ];
+                    Stock::findOrFail($item)->update([
+                        'transfer_id' => $transfer->id,
+                        'branch_id' => $request->to_branch,
+                        'updated_by' => $request->user()->id,
+                    ]);
                 endforeach;
                 TransferDetail::where('transfer_id', $id)->delete();
                 TransferDetail::insert($data);
@@ -149,7 +162,16 @@ class StoreTransferController extends Controller
      */
     public function destroy(string $id)
     {
-        Transfer::findOrFail(decrypt($id))->delete();
+        DB::transaction(function () use ($id) {
+            $transfer = Transfer::findOrFail(decrypt($id));
+            Stock::where('transfer_id', decrypt($id))->update([
+                'transfer_id' => NULL,
+                'branch_id' => $transfer->from_branch,
+                'updated_by' => Auth::id(),
+            ]);
+            $transfer->delete();
+        });
+
         return redirect()->route('store.transfer')->with("success", "Transfer Deleted Successfully");
     }
 }

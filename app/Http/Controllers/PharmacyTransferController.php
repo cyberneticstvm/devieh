@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Product;
+use App\Models\Stock;
 use App\Models\Transfer;
 use App\Models\TransferDetail;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PharmacyTransferController extends Controller
@@ -37,7 +39,7 @@ class PharmacyTransferController extends Controller
     {
         $brs = Branch::selectRaw("0 as id, 'Main Branch' as name");
         $branches = Branch::selectRaw("id, name")->union($brs)->orderBy('id')->pluck('name', 'id');
-        $products = Product::whereIn('category_id', [3])->pluck('name', 'id');
+        $products = getStockProducts('pharmacy', 0);
         return view('admin.transfer.pharmacy.create', compact('branches', 'products'));
     }
 
@@ -50,35 +52,41 @@ class PharmacyTransferController extends Controller
             'from_branch' => 'required',
             'to_branch' => 'required|different:from_branch',
         ]);
-        try {
-            DB::transaction(function () use ($request) {
-                $transfer = Transfer::create([
+        //try {
+        DB::transaction(function () use ($request) {
+            $transfer = Transfer::create([
+                'from_branch' => $request->from_branch,
+                'to_branch' => $request->to_branch,
+                'transfer_note' => $request->transfer_note,
+                'type' => 'pharmacy',
+                'created_by' => $request->user()->id,
+                'updated_by' => $request->user()->id,
+            ]);
+            $data = [];
+            foreach ($request->product_id as $key => $item) :
+                $stock = Stock::findOrFail($item);
+                $data[] = [
+                    'transfer_id' => $transfer->id,
+                    'product_id' => $stock->product_id,
+                    //'batch_number' => $request->batch_number[$key],
+                    'qty' => $request->qty[$key],
                     'from_branch' => $request->from_branch,
                     'to_branch' => $request->to_branch,
-                    'transfer_note' => $request->transfer_note,
                     'type' => 'pharmacy',
-                    'created_by' => $request->user()->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+                Stock::findOrFail($item)->update([
+                    'transfer_id' => $transfer->id,
+                    'branch_id' => $request->to_branch,
                     'updated_by' => $request->user()->id,
                 ]);
-                $data = [];
-                foreach ($request->product_id as $key => $item) :
-                    $data[] = [
-                        'transfer_id' => $transfer->id,
-                        'product_id' => $item,
-                        'batch_number' => $request->batch_number[$key],
-                        'qty' => $request->qty[$key],
-                        'from_branch' => $request->from_branch,
-                        'to_branch' => $request->to_branch,
-                        'type' => 'pharmacy',
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ];
-                endforeach;
-                TransferDetail::insert($data);
-            });
-        } catch (Exception $e) {
-            return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
-        }
+            endforeach;
+            TransferDetail::insert($data);
+        });
+        //} catch (Exception $e) {
+        //return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
+        //}
         return redirect()->route('pharmacy.transfer')->with("success", "Transfer Recorded Successfully");
     }
 
@@ -98,7 +106,7 @@ class PharmacyTransferController extends Controller
         $transfer = Transfer::findOrFail(decrypt($id));
         $brs = Branch::selectRaw("0 as id, 'Main Branch' as name");
         $branches = Branch::selectRaw("id, name")->union($brs)->orderBy('id')->pluck('name', 'id');
-        $products = Product::whereIn('category_id', [3])->pluck('name', 'id');
+        $products = getStockProducts('pharmacy', 0);
         return view('admin.transfer.pharmacy.edit', compact('branches', 'products', 'transfer'));
     }
 
@@ -122,17 +130,23 @@ class PharmacyTransferController extends Controller
                 ]);
                 $data = [];
                 foreach ($request->product_id as $key => $item) :
+                    $stock = Stock::findOrFail($item);
                     $data[] = [
                         'transfer_id' => $transfer->id,
-                        'product_id' => $item,
+                        'product_id' => $stock->product_id,
                         'qty' => $request->qty[$key],
-                        'batch_number' => $request->batch_number[$key],
+                        //'batch_number' => $request->batch_number[$key],
                         'from_branch' => $request->from_branch,
                         'to_branch' => $request->to_branch,
                         'type' => 'pharmacy',
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ];
+                    Stock::findOrFail($item)->update([
+                        'transfer_id' => $transfer->id,
+                        'branch_id' => $request->to_branch,
+                        'updated_by' => $request->user()->id,
+                    ]);
                 endforeach;
                 TransferDetail::where('transfer_id', $id)->delete();
                 TransferDetail::insert($data);
@@ -148,7 +162,15 @@ class PharmacyTransferController extends Controller
      */
     public function destroy(string $id)
     {
-        Transfer::findOrFail(decrypt($id))->delete();
+        DB::transaction(function () use ($id) {
+            $transfer = Transfer::findOrFail(decrypt($id));
+            Stock::where('transfer_id', decrypt($id))->update([
+                'transfer_id' => NULL,
+                'branch_id' => $transfer->from_branch,
+                'updated_by' => Auth::id(),
+            ]);
+            $transfer->delete();
+        });
         return redirect()->route('pharmacy.transfer')->with("success", "Transfer Deleted Successfully");
     }
 }

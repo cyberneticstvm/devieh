@@ -37,23 +37,23 @@
                                 <table class="table display table-sm">
                                     <thead>
                                         <tr>
-                                            <th width="50%">Product</th>
-                                            <th>Avl. Qty</th>
+                                            <th width="80%">Product</th>
+                                            <!--<th>Avl. Qty</th>-->
                                             <th>Trns. Qty</th>
-                                            <th class="text-center"><a href="javascript:void(0)" onclick="addStoreTransferRow()"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
+                                            <th class="text-center"><a href="javascript:void(0)" onclick="addTransferRow('store')"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
                                         </tr>
                                     </thead>
-                                    <tbody class="storeTransferTbl">
-                                        @forelse($transfer->details as $key => $item)
+                                    <tbody class="transferTbl">
+                                        @forelse($transfer->stocks as $key => $item)
                                         <tr>
                                             <td>
-                                                {{ html()->select('product_id[]', $products, $item->product_id)->class('form-control select2 selPdctForTransfer')->attribute('id', 'store')->attribute('required', 'true')->placeholder('Select') }}
+                                                {{ html()->select('product_id[]', $products->pluck('name', 'id'), $item->id)->class('form-control select2 selPdctForTransfer')->attribute('id', 'store_'.$item->id)->attribute('required', 'true')->attribute('data-type', 'store')->attribute('data-category', 'transfer')->attribute('data-editQty', 1)->placeholder('Select') }}
                                             </td>
+                                            <!--<td>
+                                                {{ html()->text('avl_qty[]', (old('avl_qty')) ? old('avl_qty')[0] : getInventory($transfer->from_branch, 'store', $item->id, 'transfer', 1)->sum('balanceQty'), '1', '', '1')->class('text-end form-control qtyAvailable')->placeholder('0')->disabled() }}
+                                            </td>-->
                                             <td>
-                                                {{ html()->number('avl_qty[]', (old('avl_qty')) ? old('avl_qty')[0] : '', '1', '', '1')->class('text-end form-control qtyAvailable')->placeholder('0')->disabled() }}
-                                            </td>
-                                            <td>
-                                                {{ html()->number('qty[]', $item->qty, '1', '', '1')->class('text-end form-control qtyMax')->attribute('required', 'true')->placeholder('0') }}
+                                                {{ html()->text('qty[]', 1, '1', '1', '1')->class('text-end form-control qtyMax')->attribute('required', 'true')->attribute('readonly', true)->placeholder('0') }}
                                             </td>
                                             <td class="text-center">
                                                 <a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a>

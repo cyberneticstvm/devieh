@@ -15,7 +15,7 @@
                         <div class="row g-3">
                             <div class="col-lg-3 col-md-6">
                                 <label class="form-label req" for="from_branch">From Branch</label>
-                                {{ html()->select($name = 'from_branch', $value = $branches, old('from_branch'))->class('form-control')->placeholder('Select')->attribute('required', 'true') }}
+                                {{ html()->select($name = 'from_branch', $value = $branches, old('from_branch'))->attribute('id', 'from_branch')->class('form-control')->attribute('required', 'true') }}
                                 @error('from_branch')
                                 <small class="text-danger">{{ $errors->first('from_branch') }}</small>
                                 @enderror
@@ -37,22 +37,22 @@
                                 <table class="table display table-sm">
                                     <thead>
                                         <tr>
-                                            <th>PRODUCT</th>
-                                            <th>BATCH NUMBER</th>
-                                            <th>QTY</th>
-                                            <th class="text-center"><a href="javascript:void(0)" onclick="addPharmacyTransferRow()"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
+                                            <th width="80%">Product</th>
+                                            <!--<th>Avl. Qty</th>-->
+                                            <th>Trns. Qty</th>
+                                            <th class="text-center"><a href="javascript:void(0)" onclick="addTransferRow('pharmacy')"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
                                         </tr>
                                     </thead>
-                                    <tbody class="pharmacyTransferTbl">
+                                    <tbody class="transferTbl">
                                         <tr>
                                             <td>
-                                                {{ html()->select('product_id[]', $products, (old('product_id')) ? old('product_id')[0] : '')->class('form-control select2 pdct')->attribute('id', 'lens1')->attribute('required', 'true')->placeholder('Select') }}
+                                                {{ html()->select('product_id[]', $products->pluck('name', 'id'), (old('product_id')) ? old('product_id')[0] : '')->class('form-control select2 selPdctForTransfer')->attribute('id', 'pharmacy')->attribute('required', 'true')->attribute('data-type', 'pharmacy')->attribute('data-category', 'transfer')->attribute('data-editQty', 0)->placeholder('Select') }}
                                             </td>
+                                            <!--<td>
+                                                {{ html()->text('avl_qty[]', (old('avl_qty')) ? old('avl_qty')[0] : '', '1', '', '1')->class('text-end form-control qtyAvailable')->placeholder('0')->disabled() }}
+                                            </td>-->
                                             <td>
-                                                {{ html()->text('batch_number[]', (old('batch_number')) ? old('batch_number')[0] : '')->class('form-control')->attribute('required', 'true')->placeholder('Batch Number') }}
-                                            </td>
-                                            <td>
-                                                {{ html()->number('qty[]', (old('qty')) ? old('qty')[0] : '', '1', '', '1')->class('text-end form-control')->attribute('required', 'true')->placeholder('0') }}
+                                                {{ html()->text('qty[]', (old('qty')) ? old('qty')[0] : '1', '1', '1', '1')->class('text-end form-control qtyMax')->attribute('required', 'true')->attribute('readonly', true)->placeholder('0') }}
                                             </td>
                                         </tr>
                                     </tbody>

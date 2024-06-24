@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('purchase_id');
+            $table->unsignedBigInteger('transfer_id')->nullable();
             $table->string('unique_pcode', 25)->unique();
             $table->enum('type', ['store', 'pharmacy', 'other']);
             $table->unsignedInteger('branch_id');

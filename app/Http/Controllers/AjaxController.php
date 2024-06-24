@@ -45,9 +45,15 @@ class AjaxController extends Controller
         return response()->json($products);
     }
 
-    public function getAvailableStock($branch, $category, $product)
+    public function getStockProductsForTransfer($type, $branch)
     {
-        $data = getInventory($branch, $category, $product, 0);
+        $products = getStockProducts($type, $branch);
+        return response()->json($products);
+    }
+
+    public function getAvailableStock($branch, $type, $product, $category, $editQty)
+    {
+        $data = getInventory($branch, $type, $product, $category, $editQty);
         return response()->json($data);
     }
 }

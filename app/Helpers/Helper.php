@@ -9,6 +9,7 @@ use App\Models\Stock;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Svg\Gradient\Stop;
 
 function currentBranch()
 {
@@ -105,7 +106,15 @@ function uniquePcode($str)
     return $code;
 }
 
-function getInventory($branch, $category, $product, $editQty)
+function getStockProducts($type, $branch)
 {
-    //
+    return Stock::leftJoin('products AS p', 'p.id', 'stocks.product_id')->where('stocks.type', $type)->where('stocks.branch_id', $branch)->selectRaw("CONCAT_WS('-', stocks.unique_pcode, p.name) AS name, stocks.id AS id")->get();
+}
+
+function getInventory($branch, $type, $product, $category, $editQty)
+{
+    if ($category == 'transfer') :
+        $product = Stock::where('id', $product)->first()->product_id;
+    endif;
+    return collect(DB::select("SELECT IFNULL(SUM(CASE WHEN s.order_detail_id IS NULL THEN 1 END) + CAST('$editQty' AS INTEGER), 0) AS balanceQty FROM stocks s WHERE IF(? >= 0, s.branch_id = ?, 1) AND IF(?, s.product_id = ?, 1) AND type = ? AND s.deleted_at IS NULL", [$branch, $branch, $product, $product, $type]));
 }

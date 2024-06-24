@@ -72,7 +72,8 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/fetch/product/{id}', 'fetchProduct')->name('ajax.product.fetch');
         Route::get('/fetch/category/product/{id}', 'fetchProductsByCategory')->name('ajax.product.by.category.fetch');
         Route::get('/fetch/category/not/product/{id}', 'fetchProductsByCategoryNotIn')->name('ajax.product.by.category.not.fetch');
-        Route::get('/get/stock/{branch}/{category}/{product}', 'getAvailableStock')->name('ajax.get.available.stock');
+        Route::get('/stock/{branch}/{type}/{product}/{category}/{editQty}', 'getAvailableStock')->name('ajax.get.available.stock');
+        Route::get('/stock/products/{type}/{branch}', 'getStockProductsForTransfer')->name('ajax.get.stock.products');
     });
 
     Route::prefix('/helper')->controller(HelperController::class)->group(function () {
