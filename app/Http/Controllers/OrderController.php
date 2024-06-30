@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\PaymentMode;
 use App\Models\Product;
+use App\Models\Stock;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -19,12 +20,18 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $products;
     public function __construct()
     {
         $this->middleware('permission:store-order-list|store-order-create|store-order-edit|store-order-delete', ['only' => ['index', 'store']]);
         $this->middleware('permission:store-order-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:store-order-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:store-order-delete', ['only' => ['destroy']]);
+
+        $this->middleware(function ($request, $next) {
+            $this->products = Stock::leftJoin('products AS p', 'p.id', 'stocks.product_id')->where('stocks.type', 'store')->where('stocks.branch_id', Session::get('branch'))->whereNull('order_detail_id')->selectRaw("p.id AS product_id, p.category_id AS cid, CONCAT_WS('-', stocks.unique_pcode, p.name) AS name, stocks.id AS id")->get();
+            return $next($request);
+        });
     }
 
     public function index()
@@ -43,7 +50,7 @@ class OrderController extends Controller
             $order = Order::where('medical_record_id', $mrid)->first();
             $mrecord = MedicalRecord::findOrFail($mrid);
             $pmodes = PaymentMode::all();
-            $products = Product::all();
+            $products = $this->products;
             $advisors = User::all();
             if ($order) :
                 return view('admin.order.store.edit', compact('mrecord', 'order', 'pmodes', 'products', 'advisors'));
@@ -99,9 +106,8 @@ class OrderController extends Controller
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
-                $data = [];
                 foreach ($request->product_id as $key => $item) :
-                    $data[] = [
+                    $odetail = OrderDetail::create([
                         'order_id' => $order->id,
                         'eye' => $request->eye[$key],
                         'product_type' => $request->product_type[$key],
@@ -118,9 +124,10 @@ class OrderController extends Controller
                         'total' => $request->tot[$key],
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
-                    ];
+                    ]);
+                    Stock::where('id', $item)->where('type', 'store')->update(['order_detail_id' => $odetail->id]);
                 endforeach;
-                OrderDetail::insert($data);
+                //OrderDetail::insert($data);
             });
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
@@ -144,7 +151,8 @@ class OrderController extends Controller
         $order = Order::findOrFail(decrypt($id));
         $mrecord = MedicalRecord::findOrFail($order->medical_record_id);
         $pmodes = PaymentMode::all();
-        $products = Product::all();
+        $pdcts = Stock::leftJoin('products AS p', 'p.id', 'stocks.product_id')->where('stocks.type', 'store')->whereIn('stocks.order_detail_id', $order->details->pluck('id'))->where('stocks.branch_id', Session::get('branch'))->selectRaw("p.id AS product_id, p.category_id AS cid, CONCAT_WS('-', stocks.unique_pcode, p.name) AS name, stocks.id AS id");
+        $products = Stock::leftJoin('products AS p', 'p.id', 'stocks.product_id')->where('stocks.type', 'store')->where('stocks.branch_id', Session::get('branch'))->whereNull('order_detail_id')->selectRaw("p.id AS product_id, p.category_id AS cid, CONCAT_WS('-', stocks.unique_pcode, p.name) AS name, stocks.id AS id")->union($pdcts)->get();
         $advisors = User::all();
         return view('admin.order.store.edit', compact('mrecord', 'order', 'pmodes', 'products', 'advisors'));
     }
@@ -187,10 +195,12 @@ class OrderController extends Controller
                     'updated_by' => $request->user()->id,
                     'updated_at' => Carbon::now(),
                 ]);
+                Stock::whereIn('id', $order->details->pluck('product_id'))->update([
+                    'order_detail_id' => NULL,
+                ]);
                 OrderDetail::where('order_id', $order->id)->delete();
-                $data = [];
                 foreach ($request->product_id as $key => $item) :
-                    $data[] = [
+                    $odetail = OrderDetail::create([
                         'order_id' => $order->id,
                         'eye' => $request->eye[$key],
                         'product_type' => $request->product_type[$key],
@@ -207,9 +217,10 @@ class OrderController extends Controller
                         'total' => $request->tot[$key],
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
-                    ];
+                    ]);
+                    Stock::where('id', $item)->where('type', 'store')->update(['order_detail_id' => $odetail->id]);
                 endforeach;
-                OrderDetail::insert($data);
+                //OrderDetail::insert($data);
             });
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
@@ -222,7 +233,9 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-        Order::findOrFail(decrypt($id))->delete();
+        $order = Order::findOrFail(decrypt($id));
+        Stock::whereIn('id', $order->details->pluck('product_id'))->update(['order_detail_id' => NULL]);
+        $order->delete();
         return redirect()->route('store.order')->with("success", "Order Deleted Successfully");
     }
 }

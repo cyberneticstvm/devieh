@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Product;
+use App\Models\Stock;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,8 @@ class AjaxController extends Controller
 
     public function fetchProduct($id)
     {
-        $product = Product::findOrFail($id);
+        $stock_product = Stock::findOrFail($id);
+        $product = Product::findOrFail($stock_product->product_id);
         return response()->json($product);
     }
 

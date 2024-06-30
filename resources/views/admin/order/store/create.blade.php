@@ -1,7 +1,7 @@
 @extends("admin.base")
 @section("content")
 <div class="body d-flex py-lg-4 py-3">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-md-12">
                 <div class="card p-4 mb-4">
@@ -140,7 +140,7 @@
                                                 {{ html()->text('ipd[]', (old('ipd')) ? old('ipd')[0] : '')->class('')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('ipd') }}
                                             </td>
                                             <td>
-                                                {{ html()->select('product_id[]', $products->where('category_id', 2)->pluck('name', 'id'), (old('product_id')) ? old('product_id')[0] : '')->class('form-control pdct')->attribute('id', 'lens1')->attribute('autocomplete', 'false')->placeholder('Select') }}
+                                                {{ html()->select('product_id[]', $products->whereIn('cid', [2, 4])->pluck('name', 'id'), (old('product_id')) ? old('product_id')[0] : '')->class('form-control select2 pdct')->attribute('id', 'lens1')->attribute('autocomplete', 'false')->placeholder('Select') }}
                                             </td>
                                             <td>
                                                 {{ html()->text('qty[]', (old('qty')) ? old('qty')[0] : '')->class('text-end qty')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('0') }}
@@ -177,7 +177,7 @@
                                                 {{ html()->text('ipd[]', (old('ipd')) ? old('ipd')[1] : '')->class('')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('ipd') }}
                                             </td>
                                             <td>
-                                                {{ html()->select('product_id[]', $products->where('category_id', 2)->pluck('name', 'id'), (old('product_id')) ? old('product_id')[1] : '')->class('form-control pdct')->attribute('id', 'lens2')->attribute('autocomplete', 'false')->placeholder('Select') }}
+                                                {{ html()->select('product_id[]', $products->whereIn('cid', [2, 4])->pluck('name', 'id'), (old('product_id')) ? old('product_id')[1] : '')->class('form-control select2 pdct')->attribute('id', 'lens2')->attribute('autocomplete', 'false')->placeholder('Select') }}
                                             </td>
                                             <td>
                                                 {{ html()->text('qty[]', (old('qty')) ? old('qty')[1] : '')->class('text-end qty')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('0') }}
@@ -202,7 +202,7 @@
                                             <td><input type="hidden" name="thick[]" /></td>
                                             <td><input type="hidden" name="ipd[]" /></td>
                                             <td>
-                                                {{ html()->select('product_id[]', $products->where('category_id', 1)->pluck('name', 'id'), (old('product_id')) ? old('product_id')[2] : '')->class('form-control pdct')->attribute('autocomplete', 'false')->placeholder('Select') }}
+                                                {{ html()->select('product_id[]', $products->whereIn('cid', [1])->pluck('name', 'id'), (old('product_id')) ? old('product_id')[2] : '')->class('form-control select2 pdct')->attribute('id', 'frame')->attribute('autocomplete', 'false')->placeholder('Select') }}
                                             </td>
                                             <td>
                                                 {{ html()->text('qty[]', (old('qty')) ? old('qty')[2] : '')->class('text-end qty')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('0') }}

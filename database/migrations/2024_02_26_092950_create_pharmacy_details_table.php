@@ -22,7 +22,6 @@ return new class extends Migration
             $table->decimal('price', 7, 2)->default(0);
             $table->decimal('total', 7, 2)->default(0);
             $table->foreign('order_id')->references('id')->on('pharmacies')->onDelete('restrict');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

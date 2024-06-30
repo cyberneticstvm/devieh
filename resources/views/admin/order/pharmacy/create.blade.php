@@ -38,7 +38,7 @@
                                             <th>DURATION</th>
                                             <th>PRICE</th>
                                             <th>TOTAL</th>
-                                            <th class="text-center"><a href="javascript:void(0)" onclick="addPharmacyOrderRow()"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
+                                            <th class="text-center"><a href="javascript:void(0)" data-branch="" onclick=addPharmacyOrderRow("{{ Session::get('branch') }}")><i class="fa fa-plus fa-lg text-primary"></i></a></th>
                                         </tr>
                                     </thead>
                                     <tbody class="powerbox">
@@ -47,7 +47,7 @@
                                                 {{ html()->select('product_id[]', $products->pluck('name', 'id'), (old('product_id')) ? old('product_id')[0] : '')->class('form-control select2 pdct')->attribute('id', 'lens1')->attribute('required', 'true')->placeholder('Select') }}
                                             </td>
                                             <td>
-                                                {{ html()->text('qty[]', (old('qty')) ? old('qty')[0] : '')->class('text-end qty')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('0') }}
+                                                {{ html()->text('qty[]', (old('qty')) ? old('qty')[0] : 1)->class('text-end qty')->attribute('autocomplete', 'false')->placeholder('0')->attribute('readonly') }}
                                             </td>
                                             <td>
                                                 {{ html()->text('batch_number[]', (old('batch_number')) ? old('batch_number')[0] : '')->class('form-control w-100')->attribute('autocomplete', 'false')->maxlength('40')->placeholder('Batch') }}

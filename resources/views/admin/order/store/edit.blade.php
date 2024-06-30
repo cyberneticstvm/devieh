@@ -1,7 +1,7 @@
 @extends("admin.base")
 @section("content")
 <div class="body d-flex py-lg-4 py-3">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-md-12">
                 <div class="card p-4 mb-4">
@@ -179,7 +179,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                {{ html()->select('product_id[]', $products->where('category_id', ($item->product_type == 'Lens') ? 2 : 1)->pluck('name', 'id'), $item->product_id)->class('form-control pdct')->attribute('id', 'lens1')->attribute('autocomplete', 'false')->placeholder('Select') }}
+                                                {{ html()->select('product_id[]', $products->whereIn('cid', ($item->product_type == 'Lens') ? [2, 4] : 1)->pluck('name', 'id'), $item->product_id)->class('form-control select2 pdct')->attribute('id', 'lens'.$item->id)->attribute('autocomplete', 'false')->placeholder('Select') }}
                                             </td>
                                             <td>
                                                 {{ html()->text('qty[]', $item->qty)->class('text-end qty')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('0') }}

@@ -38,17 +38,17 @@
                                             <th>DURATION</th>
                                             <th>PRICE</th>
                                             <th>TOTAL</th>
-                                            <th class="text-center"><a href="javascript:void(0)" onclick="addPharmacyOrderRow()"><i class="fa fa-plus fa-lg text-primary"></i></a></th>
+                                            <th class="text-center"><a href="javascript:void(0)" data-branch="" onclick=addPharmacyOrderRow("{{ Session::get('branch') }}")><i class="fa fa-plus fa-lg text-primary"></i></a></th>
                                         </tr>
                                     </thead>
                                     <tbody class="powerbox">
                                         @forelse($order->details as $key => $item)
                                         <tr>
                                             <td>
-                                                {{ html()->select('product_id[]', $products->pluck('name', 'id'), $item->product_id)->class('form-control select2 pdct')->attribute('id', 'lens1')->attribute('required', 'true')->placeholder('Select') }}
+                                                {{ html()->select('product_id[]', $products->pluck('name', 'id'), $item->product_id)->class('form-control select2 pdct')->attribute('id', 'pharmacy'. $item->id)->attribute('required', 'true')->placeholder('Select') }}
                                             </td>
                                             <td>
-                                                {{ html()->text('qty[]', $item->qty)->class('text-end qty')->attribute('autocomplete', 'false')->maxlength('6')->placeholder('0') }}
+                                                {{ html()->text('qty[]', $item->qty)->class('text-end qty')->attribute('autocomplete', 'false')->placeholder('0')->attribute('readonly') }}
                                             </td>
                                             <td>
                                                 {{ html()->text('batch_number[]', $item->batch_number)->class('form-control w-100')->attribute('autocomplete', 'false')->maxlength('40')->placeholder('Batch') }}

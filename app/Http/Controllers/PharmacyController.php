@@ -7,6 +7,7 @@ use App\Models\PaymentMode;
 use App\Models\Pharmacy;
 use App\Models\PharmacyDetail;
 use App\Models\Product;
+use App\Models\Stock;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,12 +19,19 @@ class PharmacyController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $products;
+
     public function __construct()
     {
         $this->middleware('permission:pharmacy-order-list|pharmacy-order-create|pharmacy-order-edit|pharmacy-order-delete', ['only' => ['index', 'store']]);
         $this->middleware('permission:pharmacy-order-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:pharmacy-order-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:pharmacy-order-delete', ['only' => ['destroy']]);
+
+        $this->middleware(function ($request, $next) {
+            $this->products = Stock::leftJoin('products AS p', 'p.id', 'stocks.product_id')->where('stocks.type', 'pharmacy')->where('stocks.branch_id', Session::get('branch'))->whereNull('order_detail_id')->selectRaw("p.id AS product_id, p.category_id AS cid, CONCAT_WS('-', stocks.unique_pcode, p.name) AS name, stocks.id AS id")->get();
+            return $next($request);
+        });
     }
 
     public function index()
@@ -42,7 +50,7 @@ class PharmacyController extends Controller
             $order = Pharmacy::where('medical_record_id', $mrid)->first();
             $mrecord = MedicalRecord::findOrFail($mrid);
             $pmodes = PaymentMode::all();
-            $products = Product::where('category_id', 3)->get();
+            $products = $this->products;
             if ($order) :
                 return view('admin.order.pharmacy.edit', compact('mrecord', 'order', 'pmodes', 'products'));
             else :
@@ -79,9 +87,8 @@ class PharmacyController extends Controller
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
-                $data = [];
                 foreach ($request->product_id as $key => $item) :
-                    $data[] = [
+                    $pdetail = PharmacyDetail::create([
                         'order_id' => $order->id,
                         'product_id' => $item,
                         'qty' => $request->qty[$key],
@@ -92,9 +99,10 @@ class PharmacyController extends Controller
                         'total' => $request->tot[$key],
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
-                    ];
+                    ]);
+                    Stock::where('id', $item)->where('type', 'pharmacy')->update(['order_detail_id' => $pdetail->id]);
                 endforeach;
-                PharmacyDetail::insert($data);
+                //PharmacyDetail::insert($data);
             });
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
@@ -118,7 +126,8 @@ class PharmacyController extends Controller
         $order = Pharmacy::findOrFail(decrypt($id));
         $mrecord = MedicalRecord::findOrFail($order->medical_record_id);
         $pmodes = PaymentMode::all();
-        $products = Product::all();
+        $pdcts = Stock::leftJoin('products AS p', 'p.id', 'stocks.product_id')->where('stocks.type', 'pharmacy')->whereIn('stocks.order_detail_id', $order->details->pluck('id'))->where('stocks.branch_id', Session::get('branch'))->selectRaw("p.id AS product_id, p.category_id AS cid, CONCAT_WS('-', stocks.unique_pcode, p.name) AS name, stocks.id AS id");
+        $products = Stock::leftJoin('products AS p', 'p.id', 'stocks.product_id')->where('stocks.type', 'pharmacy')->where('stocks.branch_id', Session::get('branch'))->whereNull('order_detail_id')->selectRaw("p.id AS product_id, p.category_id AS cid, CONCAT_WS('-', stocks.unique_pcode, p.name) AS name, stocks.id AS id")->union($pdcts)->get();
         return view('admin.order.pharmacy.edit', compact('mrecord', 'order', 'pmodes', 'products'));
     }
 
@@ -144,9 +153,12 @@ class PharmacyController extends Controller
                     'updated_at' => Carbon::now(),
                 ]);
                 $data = [];
+                Stock::whereIn('id', $order->details->pluck('product_id'))->update([
+                    'order_detail_id' => NULL,
+                ]);
                 PharmacyDetail::where('order_id', $order->id)->delete();
                 foreach ($request->product_id as $key => $item) :
-                    $data[] = [
+                    $pdetail = PharmacyDetail::create([
                         'order_id' => $order->id,
                         'product_id' => $item,
                         'qty' => $request->qty[$key],
@@ -157,9 +169,10 @@ class PharmacyController extends Controller
                         'total' => $request->tot[$key],
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
-                    ];
+                    ]);
+                    Stock::where('id', $item)->where('type', 'pharmacy')->update(['order_detail_id' => $pdetail->id]);
                 endforeach;
-                PharmacyDetail::insert($data);
+                //PharmacyDetail::insert($data);
             });
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
@@ -172,7 +185,9 @@ class PharmacyController extends Controller
      */
     public function destroy(string $id)
     {
-        Pharmacy::findOrFail(decrypt($id))->delete();
+        $order = Pharmacy::findOrFail(decrypt($id));
+        Stock::whereIn('id', $order->details->pluck('product_id'))->update(['order_detail_id' => NULL]);
+        $order->delete();
         return redirect()->route('pharmacy.order')->with("success", "Pharmacy Bill Deleted Successfully");
     }
 }

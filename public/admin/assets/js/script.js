@@ -91,6 +91,7 @@ $(document).ready(function () {
                 success: function (res) {
                     //dis.parent().parent().find(".qtyAvailable").val(res[0].balanceQty);
                     dis.parent().parent().find(".qtyMax").attr("max", res[0].balanceQty);
+                    dis.parent().parent().find(".qtyMax").val("1");
                     console.log(res);
                 },
                 error: function (err) {
@@ -138,13 +139,14 @@ function addDrishtiOrderRow() {
     });
 }
 
-function addPharmacyOrderRow() {
+function addPharmacyOrderRow(br) {
+    let branch = br;
     $.ajax({
         type: 'GET',
-        url: '/admin/ajax/fetch/category/product/3',
+        url: '/admin/ajax/stock/products/pharmacy/' + branch,
         dataType: 'json',
         success: function (res) {
-            $(".powerbox").append(`<tr><td><select class="form-control selPdct pdct" name="product_id[]" required><option></option></select></td><td><input type="text" name="qty[]" class="text-end qty" placeholder="0"></td><td><input type="text" name="batch_number[]" class="form-control" placeholder="Batch"></td><td><input type="text" name="dosage[]" class="form-control" placeholder="Dosage"></td><td><input type="text" name="duration[]" class="form-control" placeholder="Duration"></td><td><input type="text" name="price[]" class="text-end price" placeholder="0.00" readonly></td><td><input type="text" name="tot[]" class="text-end tot" placeholder="0.00" readonly></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
+            $(".powerbox").append(`<tr><td><select class="form-control selPdct pdct" name="product_id[]" required><option></option></select></td><td><input type="text" name="qty[]" class="text-end qty" value='1' placeholder="0" readonly></td><td><input type="text" name="batch_number[]" class="form-control" placeholder="Batch"></td><td><input type="text" name="dosage[]" class="form-control" placeholder="Dosage"></td><td><input type="text" name="duration[]" class="form-control" placeholder="Duration"></td><td><input type="text" name="price[]" class="text-end price" placeholder="0.00" readonly></td><td><input type="text" name="tot[]" class="text-end tot" placeholder="0.00" readonly></td><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td></tr>`);
             var xdata = $.map(res, function (obj) {
                 obj.text = obj.name || obj.id;
                 return obj;

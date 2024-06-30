@@ -72,7 +72,7 @@
                                                 {{ html()->text('batch_number[]', (old('batch_number')) ? old('batch_number')[0] : '')->class('form-control')->attribute('autocomplete', 'false')->maxlength('40')->placeholder('Batch Number') }}
                                             </td>
                                             <td>
-                                                {{ html()->date('expiry_date[]', (old('expiry_date')) ? old('expiry_date')[0]->format('Y-m-d') : date('Y-m-d'))->class('form-control w-100')->attribute('autocomplete', 'false') }}
+                                                {{ html()->date('expiry_date[]', (old('expiry_date')) ? old('expiry_date')[0] : date('Y-m-d'))->class('form-control w-100')->attribute('autocomplete', 'false') }}
                                             </td>
                                             <td>
                                                 {{ html()->number('purchase_price[]', (old('purchase_price')) ? old('purchase_price')[0] : '', $min=0, '', $step='any')->class('text-end form-control')->attribute('autocomplete', 'false')->placeholder('0.00') }}
