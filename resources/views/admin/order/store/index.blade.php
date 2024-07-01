@@ -21,7 +21,7 @@
                                 <th>Invoice Number</th>
                                 <th>Order Status</th>
                                 <th>Status</th>
-                                <th>Invoice</th>
+                                <th>Receipt</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -37,7 +37,7 @@
                                 <td>{!! $order->invoice(encrypt($order->id)) !!}</td>
                                 <td>{{ $order->orderstatus->name }}</td>
                                 <td>{!! $order->status() !!}</td>
-                                <td class="text-center"><a href=""><i class="fa fa-file-pdf-o text-danger"></i></a></td>
+                                <td class="text-center"><a href="{{ route('pdf.receipt', encrypt($order->medical_record_id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i></a></td>
                                 <td class="text-center"><a href="{{ route('store.order.edit', encrypt($order->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                                 <td class="text-center"><a href="{{ route('store.order.delete', encrypt($order->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
                             </tr>

@@ -48,15 +48,31 @@ class PDFController extends Controller
     public function receipt(string $id)
     {
         $mrecord = MedicalRecord::findOrFail(decrypt($id));
-        $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($this->qrtext));
-        $pdf = PDF::loadView('admin.pdf.receipt', compact('mrecord', 'qrcode'));
-        $pdf->output();
-        $canvas = $pdf->getDomPDF()->getCanvas();
-        $height = $canvas->get_height();
-        $width = $canvas->get_width();
-        $canvas->set_opacity(.2);
-        $canvas->page_text($width / 2.5, $height / 1.3, 'LAB COPY', null, 40, array(0, 0, 0), 2, 2, -40);
-        return $pdf->stream('receipt.pdf');
+        if ($mrecord->order?->details) :
+            $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($this->qrtext));
+            $pdf = PDF::loadView('admin.pdf.receipt', compact('mrecord', 'qrcode'));
+            $pdf->output();
+            $canvas = $pdf->getDomPDF()->getCanvas();
+            $height = $canvas->get_height();
+            $width = $canvas->get_width();
+            $canvas->set_opacity(.2);
+            $canvas->page_text($width / 2.5, $height / 1.3, 'LAB COPY', null, 40, array(0, 0, 0), 2, 2, -40);
+            return $pdf->stream('receipt.pdf');
+        else :
+            return redirect()->back()->with("error", "No order found!");
+        endif;
+    }
+
+    public function pharmacyReceipt(string $id)
+    {
+        $mrecord = MedicalRecord::findOrFail(decrypt($id));
+        if ($mrecord->pharmacy?->details) :
+            $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($this->qrtext));
+            $pdf = PDF::loadView('admin.pdf.pharmacy-receipt', compact('mrecord', 'qrcode'));
+            return $pdf->stream('pharmacy-receipt.pdf');
+        else :
+            return redirect()->back()->with("error", "No order found!");
+        endif;
     }
 
     public function drishtiOrderInvoice(string $id)

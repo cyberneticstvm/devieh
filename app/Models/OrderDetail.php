@@ -13,6 +13,6 @@ class OrderDetail extends Model
 
     public function stock()
     {
-        return $this->belongsTo(Stock::class, 'order_detail_id', 'id');
+        return $this->belongsTo(Stock::class, 'id', 'order_detail_id');
     }
 }

@@ -18,7 +18,7 @@
                                 <th>Name</th>
                                 <th>Mobile</th>
                                 <th>Place</th>
-                                <th>Invoice</th>
+                                <th>Receipt</th>
                                 <th>Status</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -32,7 +32,7 @@
                                 <td>{{ $order->mrecord->name }}</td>
                                 <td>{{ $order->mrecord->mobile }}</td>
                                 <td>{{ $order->mrecord->place }}</td>
-                                <td class="text-center"><a href=""><i class="fa fa-file-pdf-o text-danger"></i></a></td>
+                                <td class="text-center"><a href="{{ route('pdf.pharmacy.receipt', encrypt($order->medical_record_id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i></a></td>
                                 <td>{!! $order->status() !!}</td>
                                 <td class="text-center"><a href="{{ route('pharmacy.order.edit', encrypt($order->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                                 <td class="text-center"><a href="{{ route('pharmacy.order.delete', encrypt($order->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>

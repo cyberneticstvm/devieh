@@ -4,6 +4,8 @@ use App\Models\Appointment;
 use App\Models\Branch;
 use App\Models\CampPatient;
 use App\Models\Doctor;
+use App\Models\Order;
+use App\Models\Pharmacy;
 use App\Models\Setting;
 use App\Models\Stock;
 use Illuminate\Support\Facades\Session;
@@ -34,7 +36,26 @@ function casetypes()
 function generatePharmacyInvoice()
 {
     $bcode = Branch::findOrFail(Session::get('branch'))->code;
-    return DB::table('pharmacies')->selectRaw("CONCAT_WS('/', 'INV', 'PH', '$bcode', LPAD(IFNULL(max(id)+1, 1), 7, '0')) AS ino")->first();
+    $fyear = fyear();
+    return Pharmacy::selectRaw("CONCAT_WS('/', IFNULL(MAX(CAST(SUBSTRING_INDEX(invoice, '/', 1) AS INTEGER))+1, 1001), '$bcode', '$fyear') AS ino")->first()->ino;
+    //return DB::table('pharmacies')->selectRaw("CONCAT_WS('/', 'INV', 'PH', '$bcode', LPAD(IFNULL(max(id)+1, 1), 7, '0')) AS ino")->first();
+}
+
+function generateOrderInvoice()
+{
+    $bcode = Branch::findOrFail(Session::get('branch'))->code;
+    $fyear = fyear();
+    return Order::selectRaw("CONCAT_WS('/', IFNULL(MAX(CAST(SUBSTRING_INDEX(invoice, '/', 1) AS INTEGER))+1, 1001), '$bcode', '$fyear') AS ino")->first()->ino;
+}
+
+function generateGac()
+{
+    //
+}
+
+function fyear()
+{
+    return date("m") >= 4 ? date("y") . '-' . (date("y") + 1) : (date("Y") - 1) . '-' . date("y");
 }
 
 function getDocFee($doctor, $opreference)

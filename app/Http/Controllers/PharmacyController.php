@@ -77,7 +77,7 @@ class PharmacyController extends Controller
                 $order = Pharmacy::create([
                     'medical_record_id' => $mrecord->id,
                     'branch_id' => Session::get('branch'),
-                    'invoice' => generatePharmacyInvoice()->ino,
+                    'invoice' => generatePharmacyInvoice(),
                     'total' => $request->total,
                     'discount' => $disc,
                     'total_after_discount' => $request->total - $disc,

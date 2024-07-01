@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\MedicalRecord;
+use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -36,5 +38,15 @@ class HelperController extends Controller
             return $q->where('mobile', $request->search_term);
         })->get();
         return view('admin.search.index', compact('inputs', 'result'));
+    }
+
+    public function generateInvoice($oid)
+    {
+        Order::findOrFail(decrypt($oid))->update([
+            'invoice' => generateOrderInvoice(),
+            'invoice_date' => Carbon::now(),
+            'order_status' => 5,
+        ]);
+        return redirect()->back()->with("success", "Invoice generated successfully");
     }
 }

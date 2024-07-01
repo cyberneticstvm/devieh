@@ -79,6 +79,7 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
     Route::prefix('/helper')->controller(HelperController::class)->group(function () {
         Route::get('/search', 'search')->name('search');
         Route::post('/search', 'searchFetch')->name('search.fetch');
+        Route::get('/generate/invoice/{id}', 'generateInvoice')->name('generate.invoice');
     });
 
     Route::prefix('/user')->controller(UserController::class)->group(function () {
@@ -295,6 +296,7 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/certificate/{id}', 'certificate')->name('pdf.certificate');
         Route::get('/service-fee/{id}', 'serviceFee')->name('pdf.service.fee');
         Route::get('/receipt/{id}', 'receipt')->name('pdf.receipt');
+        Route::get('/pharmacy/receipt/{id}', 'pharmacyReceipt')->name('pdf.pharmacy.receipt');
     });
 });
 

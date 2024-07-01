@@ -48,7 +48,7 @@
         <tr>
             <td>{{ $item->eye }}</td>
             <td>{{ $item->thick }}</td>
-            <td>{{ $item->product->name }}</td>
+            <td>{{ $item->stock->product->name }}</td>
             <td class="text-center">{{ $item->qty }}</td>
             <td class="text-end">{{ $item->price }}</td>
         </tr>
@@ -119,7 +119,7 @@
                     <td class="text-center">{{ $item->dia }}</td>
                     <td>{{ $item->thick }}</td>
                     <td>{{ $item->ipd }}</td>
-                    <td>{{ $item->product->name }}</td>
+                    <td>{{ $item->stock->product->name }}</td>
                     <td>{{ $item->qty }}</td>
                 </tr>
                 @empty
