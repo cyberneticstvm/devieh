@@ -43,7 +43,7 @@
             <td class="text-end fw-bold">{{ $mrecord->consultation_fee }}</td>
         </tr>
     </table>
-    <p class="mt-50">Phone: <strong>0470 2624622 / 8089424622</strong> Please bring this slip at the time of delivery/ Please note that we will not responsible for any damage while fitting the lens on customer's frame / To be billed after approval / In case of any complaints or suggestions please call 99 95 27 30 40.</p>
+    <p class="mt-50">Phone: <strong>0470 2624622 / 8089424622</strong> {{ settings()->toArray()[7]['value'] }}</p>
     <div class="col mt-50 text-center">
         <!--{!! DNS1D::getBarcodeHTML('4445645656', 'UPCA', 2, 50, 'black', true) !!}-->
         <img src="data:image/png;base64, {{ DNS1D::getBarcodePNG($mrecord->mrn, 'C39', 1, 30, array(1, 1, 1), true) }}" alt="barcode" />

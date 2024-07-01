@@ -71,7 +71,7 @@
             <td class="text-end fw-bold">{{ $mrecord->order->balance }}</td>
         </tr>
     </table>
-    <p class="">Phone: <strong>0470 2624622 / 8089424622</strong> Please bring this slip at the time of delivery/ Please note that we will not responsible for any damage while fitting the lens on customer's frame / To be billed after approval / In case of any complaints or suggestions please call 99 95 27 30 40.</p>
+    <p class="">Phone: <strong>0470 2624622 / 8089424622</strong> {{ settings()->toArray()[7]['value'] }}</p>
     <hr style="border: 1px dotted; color:blue;">
     <div class="col">
         <table class="table no-bordered" width="100%" cellspacing="0" cellpadding="0">

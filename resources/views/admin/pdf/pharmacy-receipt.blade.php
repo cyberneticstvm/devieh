@@ -50,7 +50,7 @@
             <td class="text-end fw-bold">{{ number_format($mrecord->pharmacy->details->sum('total'), 2) }}</td>
         </tr>
     </table>
-    <p class="mt-50">We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct. Composition taxable person. Not eligible to collect tax on supplies</p>
+    <p class="mt-50">{{ settings()->toArray()[8]['value'] }}</p>
     <div class="col mt-50 text-center">
         <!--{!! DNS1D::getBarcodeHTML('4445645656', 'UPCA', 2, 50, 'black', true) !!}-->
         <img src="data:image/png;base64, {{ DNS1D::getBarcodePNG($mrecord->mrn, 'C39', 1, 30, array(1, 1, 1), true) }}" alt="barcode" />
