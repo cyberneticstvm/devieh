@@ -25,6 +25,7 @@ use App\Http\Controllers\PharmacyTransferController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StorePurchaseController;
 use App\Http\Controllers\StoreTransferController;
 use App\Http\Controllers\SubcategoryController;
@@ -297,6 +298,11 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/service-fee/{id}', 'serviceFee')->name('pdf.service.fee');
         Route::get('/receipt/{id}', 'receipt')->name('pdf.receipt');
         Route::get('/pharmacy/receipt/{id}', 'pharmacyReceipt')->name('pdf.pharmacy.receipt');
+    });
+
+    Route::prefix('settings')->controller(SettingsController::class)->group(function () {
+        Route::get('/editor', 'editor')->name('settings.editor');
+        Route::post('/editor', 'editorSave')->name('settings.editor.save');
     });
 });
 

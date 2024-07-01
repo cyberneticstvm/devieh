@@ -21,7 +21,7 @@
                                 <th>Phone Number</th>
                                 <th>Doctor</th>
                                 <th>Pharma</th>
-                                <th>OPT</th>
+                                <th>OPT/Cert</th>
                                 <th>Service Fee</th>
                                 <th>Receipt</th>
                                 <th>Status</th>

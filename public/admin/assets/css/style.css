@@ -6,7 +6,7 @@ label.req {
     color: red;
 }
 
-.form-control {
+.form-control:not(textarea) {
     height: 40px !important;
 }
 

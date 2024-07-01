@@ -6,6 +6,7 @@ use App\Models\MedicalRecord;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class HelperController extends Controller
@@ -42,11 +43,17 @@ class HelperController extends Controller
 
     public function generateInvoice($oid)
     {
-        Order::findOrFail(decrypt($oid))->update([
-            'invoice' => generateOrderInvoice(),
-            'invoice_date' => Carbon::now(),
-            'order_status' => 5,
-        ]);
+        DB::transaction(function () use ($oid) {
+            $order = Order::findOrFail(decrypt($oid));
+            $order->update([
+                'invoice' => generateOrderInvoice(),
+                'invoice_date' => Carbon::now(),
+                'order_status' => 5,
+            ]);
+            MedicalRecord::findOrFail($order->medical_record_id)->update([
+                'status' => 5,
+            ]);
+        });
         return redirect()->back()->with("success", "Invoice generated successfully");
     }
 }
