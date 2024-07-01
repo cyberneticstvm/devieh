@@ -93,6 +93,7 @@
                 <!-- Menu: Sub menu ul -->
                 {{
                     Menu::new()->setAttribute('id', 'menu-Authentication')->addClass('sub-menu collapse')->addItemClass('ms-link')
+                    ->linkIfCan('settings-extras', route('settings.extras'), 'Extras')                 
                     ->linkIfCan('settings-editor', route('settings.editor'), 'Editor')                 
                 }}
             </li>

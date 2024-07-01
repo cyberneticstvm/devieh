@@ -303,6 +303,9 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
     Route::prefix('settings')->controller(SettingsController::class)->group(function () {
         Route::get('/editor', 'editor')->name('settings.editor');
         Route::post('/editor', 'editorSave')->name('settings.editor.save');
+
+        Route::get('/extras', 'extras')->name('settings.extras');
+        Route::post('/extras', 'extrasSave')->name('settings.extras.save');
     });
 });
 
