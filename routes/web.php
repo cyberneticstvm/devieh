@@ -297,6 +297,7 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/certificate/{id}', 'certificate')->name('pdf.certificate');
         Route::get('/service-fee/{id}', 'serviceFee')->name('pdf.service.fee');
         Route::get('/receipt/{id}', 'receipt')->name('pdf.receipt');
+        Route::get('/invoice/{oid}', 'invoice')->name('pdf.invoice');
         Route::get('/pharmacy/receipt/{id}', 'pharmacyReceipt')->name('pdf.pharmacy.receipt');
     });
 

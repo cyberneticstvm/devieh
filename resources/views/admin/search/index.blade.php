@@ -56,7 +56,7 @@
                                 <th>Place</th>
                                 <th>Medicine</th>
                                 <th>Receipt</th>
-                                <th>Med.Inv</th>
+                                <th>Invoice</th>
                                 <th>GAC</th>
                             </tr>
                         </thead>
@@ -69,9 +69,9 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->mobile }}</td>
                                 <td>{{ $item->place }}</td>
-                                <td><a href="{{ route('pharmacy.order.edit', encrypt($item?->pharmacy?->id)) }}">Medicine</a></td>
+                                <td><a href="{{ route('pdf.pharmacy.receipt', encrypt($item->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i></a></td>
                                 <td><a href="{{ route('pdf.receipt', encrypt($item->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i></a></td>
-                                <td></td>
+                                <td>{!! $item->order->invoice(encrypt($item?->order?->id)) !!}</td>
                                 <td>{{ $item?->order?->auth_code }}</td>
                             </tr>
                             @empty

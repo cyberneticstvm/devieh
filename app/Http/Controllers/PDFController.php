@@ -63,6 +63,15 @@ class PDFController extends Controller
         endif;
     }
 
+    public function invoice(string $oid)
+    {
+        $order = Order::findOrFail(decrypt($oid));
+        $mrecord = MedicalRecord::findOrFail($order->medical_record_id);
+        $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($this->qrtext));
+        $pdf = PDF::loadView('admin.pdf.invoice', compact('order', 'qrcode', 'mrecord'));
+        return $pdf->stream('invoice.pdf');
+    }
+
     public function pharmacyReceipt(string $id)
     {
         $mrecord = MedicalRecord::findOrFail(decrypt($id));

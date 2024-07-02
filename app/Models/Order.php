@@ -21,7 +21,7 @@ class Order extends Model
 
     public function invoice($oid)
     {
-        return ($this->invoice) ??  "<a href='/admin/helper/generate/invoice/$oid' class='proceed'>Invoice</a>";
+        return ($this->invoice) ? "<a href='/admin/pdf/invoice/" . $oid . "' target='_blank'>" . $this->invoice . "</a>" : "<a href='/admin/helper/generate/invoice/$oid' class='proceed'>Invoice</a>";
     }
 
     public function mrecord()
