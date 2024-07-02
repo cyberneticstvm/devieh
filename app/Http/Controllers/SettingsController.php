@@ -33,7 +33,7 @@ class SettingsController extends Controller
 
     function extras()
     {
-        $settings = Setting::whereIn('id', [3, 4, 5, 6])->get()->toArray();
+        $settings = Setting::whereIn('id', [3, 4, 5, 6, 10, 11, 12, 13, 14])->get()->toArray();
         return view('admin.settings.extras', compact('settings'));
     }
 
@@ -50,6 +50,11 @@ class SettingsController extends Controller
             Setting::findOrFail(4)->update(['value' => $request->appointment_start_time]);
             Setting::findOrFail(5)->update(['value' => $request->appointment_end_time]);
             Setting::findOrFail(6)->update(['value' => $request->appointment_interval]);
+            Setting::findOrFail(10)->update(['value' => $request->restrict_date_for_delivery]);
+            Setting::findOrFail(11)->update(['value' => $request->daily_expense_limit]);
+            Setting::findOrFail(12)->update(['value' => $request->advisor_commission_level]);
+            Setting::findOrFail(13)->update(['value' => $request->invloice_due_amount_limit]);
+            Setting::findOrFail(14)->update(['value' => $request->products_delivery_per_day]);
         });
         return redirect()->back()->with("success", "Settings updated successfully");
     }

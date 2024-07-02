@@ -26,6 +26,7 @@ class User extends Authenticatable
         'username',
         'password',
         'doctor_id',
+        'mobile_login',
     ];
 
     /**
@@ -51,6 +52,11 @@ class User extends Authenticatable
     public function status()
     {
         return ($this->deleted_at) ? "<span class='badge bg-danger'>Deleted</span>" : "<span class='badge bg-success'>Active</span>";
+    }
+
+    public function isMobileEnabled()
+    {
+        return ($this->mobile_login) ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
     }
 
     public function branches()

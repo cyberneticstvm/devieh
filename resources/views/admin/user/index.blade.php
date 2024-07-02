@@ -20,6 +20,7 @@
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Status</th>
+                                <th>Mobile</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -32,7 +33,8 @@
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->roles?->first()?->name }}</td>
-                                <td>{!! $user->status() !!}
+                                <td>{!! $user->status() !!}</td>
+                                <td class="text-center">{!! $user->isMobileEnabled() !!}</td>
                                 <td class="text-center"><a href="{{ route('user.edit', encrypt($user->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                                 <td class="text-center"><a href="{{ route('user.delete', encrypt($user->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
                             </tr>

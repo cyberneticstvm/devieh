@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->unsignedBigInteger('doctor_id')->nullable();
             $table->rememberToken();
+            $table->boolean('mobile_login')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

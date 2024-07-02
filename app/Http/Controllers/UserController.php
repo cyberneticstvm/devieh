@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -44,6 +45,10 @@ class UserController extends Controller
         try {
             $credentials = $request->only('username', 'password');
             if (Auth::attempt($credentials)) {
+                if (Str::contains($request->userAgent(), ['iPhone', 'Android', 'Linux', 'Macintosh']) && !Auth::user()->mobile_login) :
+                    Auth::logout();
+                    return redirect()->route('login')->with("error", "Mobile access has been restricted for this login");
+                endif;
                 return redirect()->intended('/admin/dashboard')
                     ->withSuccess('User logged in successfully');
             }

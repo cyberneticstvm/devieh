@@ -41,6 +41,26 @@
                                 <small class="text-danger">{{ $errors->first('consultation_free_days') }}</small>
                                 @enderror
                             </div>
+                            <div class="col-lg-2 col-md-4">
+                                <label class="form-label req" for="">Restrict Date for Delivery</label>
+                                {{ html()->date('restrict_date_for_delivery', old('restrict_date_for_delivery') ?? $settings[4]['value'])->class('form-control') }}
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label class="form-label req" for="">Daily Expense Limit</label>
+                                {{ html()->number('daily_expense_limit', old('daily_expense_limit') ?? $settings[5]['value'], 0, '', 'any')->class('form-control')->placeholder('0') }}
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label class="form-label req" for="">Advisor Commission Level</label>
+                                {{ html()->number('advisor_commission_level', old('advisor_commission_level') ?? $settings[6]['value'], 0, '', 'any')->class('form-control')->placeholder('0') }}
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label class="form-label req" for="">Invoice Due Amount Limit</label>
+                                {{ html()->number('invloice_due_amount_limit', old('invloice_due_amount_limit') ?? $settings[7]['value'], 0, '', 'any')->class('form-control')->placeholder('0') }}
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label class="form-label req" for="">Products Delivery per Day</label>
+                                {{ html()->number('products_delivery_per_day', old('products_delivery_per_day') ?? $settings[8]['value'], 0, '', 'any')->class('form-control')->placeholder('0') }}
+                            </div>
                         </div>
                         <div class="py-3 text-end">
                             <button type="button" class="btn btn-danger" onclick="window.history.back()">CANCEL</button>

@@ -55,6 +55,10 @@
                                 <small class="text-danger">{{ $errors->first('password') }}</small>
                                 @enderror
                             </div>
+                            <div class="col-lg-2 col-md-4">
+                                <label class="form-label req" for="branches">Allow Mobile Login</label>
+                                {{ html()->select($name = 'mobile_login', $value = array('' => 'No', '1' => 'Yes'), old('mobile_login'))->class('form-control select2') }}
+                            </div>
                         </div>
                         <div class="py-3 text-end">
                             <button type="button" class="btn btn-danger" onclick="window.history.back()">CANCEL</button>
