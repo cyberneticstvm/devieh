@@ -1,1 +1,1 @@
-{{ DNS1D::getBarcodeHTML('4445645656', 'C39') }}
+{!! DNS1D::getBarcodeHTML('4445645656', 'C39') !!}
