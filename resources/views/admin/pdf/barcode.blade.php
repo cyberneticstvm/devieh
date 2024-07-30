@@ -1,1 +1,1 @@
-{!! DNS1D::getBarcodeSVG($product->unique_pcode, $product->unique_pcode,3,33,'green', true) !!}
+<img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($product->unique_pcode, 'C39') }}" alt="barcode" />
