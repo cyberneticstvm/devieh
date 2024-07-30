@@ -33,7 +33,7 @@
                                 <td>{{ $product->product?->price }}</td>
                                 <td>{{ $product->product?->category?->name }}</td>
                                 <td>{{ $product->product?->subcategory?->name }}</td>
-                                <td class="text-center"><a href="{{ route('product.unique.barcode', encrypt($product->id)) }}"><i class="fa fa-barcode"></i></a></td>
+                                <td class="text-center"><a href="{{ route('product.unique.barcode', encrypt($product->id)) }}" target="_blank"><i class="fa fa-barcode"></i></a></td>
                             </tr>
                             @empty
                             @endforelse
