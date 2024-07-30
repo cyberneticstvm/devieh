@@ -1,1 +1,1 @@
-<img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($product->unique_pcode, 'C39') }}" alt="barcode" />
+<img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($product->unique_pcode, 'C39', 3, 33, array(1,1,1), true) }}" alt="barcode" />
