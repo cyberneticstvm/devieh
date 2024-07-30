@@ -157,6 +157,7 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
 
     Route::prefix('product')->controller(ProductController::class)->group(function () {
         Route::get('/', 'index')->name('product');
+        Route::get('/unique/list', 'uniqueList')->name('product.unique.list');
         Route::get('/create', 'create')->name('product.create');
         Route::post('/create', 'store')->name('product.save');
         Route::get('/edit/{id}', 'edit')->name('product.edit');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Stock;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 
@@ -19,12 +20,19 @@ class ProductController extends Controller
         $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:product-unique-list', ['only' => ['uniqueList']]);
     }
 
     public function index()
     {
         $products = Product::withTrashed()->latest()->get();
         return view('admin.product.index', compact('products'));
+    }
+
+    public function uniqueList()
+    {
+        $products = Stock::withTrashed()->latest()->get();
+        return view('admin.product.list', compact('products'));
     }
 
     /**

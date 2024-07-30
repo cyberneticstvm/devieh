@@ -26,6 +26,7 @@
                     ->linkIfCan('category-list', route('category'), 'Category Management')
                     ->linkIfCan('subcategory-list', route('subcategory'), 'Subcategory Management')
                     ->linkIfCan('product-list', route('product'), 'Product Management')
+                    ->linkIfCan('product-unique-list', route('product.unique.list'), 'Product Unique List')
                 }}
             </li>
             <li class="collapsed">
