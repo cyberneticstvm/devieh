@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Stock;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class ProductController extends Controller
 {
@@ -33,6 +34,13 @@ class ProductController extends Controller
     {
         $products = Stock::withTrashed()->latest()->get();
         return view('admin.product.list', compact('products'));
+    }
+
+    public function uniqueBarcode($id)
+    {
+        $product = Stock::findOrFail(decrypt($id));
+        $pdf = PDF::loadView('/admin/pdf/barcode', compact('product'));
+        return $pdf->stream($product->unique_pcode . '.pdf');
     }
 
     /**

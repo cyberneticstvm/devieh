@@ -163,6 +163,7 @@ Route::prefix('admin')->middleware(['web', 'auth', 'branch'])->group(function ()
         Route::get('/edit/{id}', 'edit')->name('product.edit');
         Route::put('/edit/{id}', 'update')->name('product.update');
         Route::get('/delete/{id}', 'destroy')->name('product.delete');
+        Route::get('/unique/barcode/{id}', 'uniqueBarcode')->name('product.unique.barcode');
     });
 
     Route::prefix('appointment')->controller(AppointmentController::class)->group(function () {
